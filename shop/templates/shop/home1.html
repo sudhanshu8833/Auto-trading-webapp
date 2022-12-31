@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="keywords"
+      content="Bootstrap, Landing page, Template, Business, Service"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="author" content="Grayrids" />
+    <title>Algo 99</title>
+    {% load static %}
+    <!--====== Favicon Icon ======-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'shop/img/2_blue.png' %}"
+      type="image/png"
+    />
+
+    <link rel="stylesheet" href="{% static 'shop/bootstrap.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'shop/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/LineIcons.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/owl.carousel.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/owl.theme.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/nivo-lightbox.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/responsive.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/aos.css' %}" />
+  </head>
+
+  <body>
+    <!-- Header Section Start -->
+    <header id="home" class="hero-area">
+      <div class="overlay">
+        <span></span>
+        <span></span>
+      </div>
+      <nav
+        class="navbar navbar-expand-md bg-inverse fixed-top scrolling-navbar"
+      >
+        <div class="container">
+          <a href="#home" class="navbar-brand"
+            ><img
+              style="width: 55px; height: 55px"
+              src="{% static 'shop/img/1 white.png' %}"
+              alt=""
+          /></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="lni-menu"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#services">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#features">Services</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#team">Team</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#blog">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-singin" href="/handleLogin">Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container">
+        <div class="row space-100">
+          <div class="col-lg-6 col-md-12 col-xs-12">
+            <div class="contents">
+              <p style="font-weight: bold">
+                Trading is changed, Be a part of this change
+              </p>
+              <h1
+                class="head-title"
+                style="
+                  color: white;
+                  font-weight: 900;
+                  font-size: 60px;
+                  padding: 15px;
+                "
+              >
+                Algo Bots
+              </h1>
+              <p style="font-weight: bolder">
+                We are providing Free tradingview to broker connection.</p> <p style="font-weight: bolder"> So, Trade cash through tradingview now.
+              </p>
+              <div class="header-button">
+                <a
+                  href="/signup"
+                  rel="nofollow"
+                  target="_blank"
+                  class="btn btn-border-filled"
+                  >Get Started</a
+                >
+                <!-- <a href="https://rebrand.ly/slick-ud" rel="nofollow" target="_blank" class="btn btn-border page-scroll">Learn More</a> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12 col-xs-12 p-0">
+            <div class="intro-img">
+              <img
+                src="https://preview.uideck.com/items/slick/business/img/intro.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Header Section End -->
+
+
+<!-- widget -->
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container mt-5">
+  
+  <div class="tradingview-widget-container__widget"></div>
+  
+  <!-- <div class="tradingview-widget-copyright"><a href="https://in.tradingview.com/markets/" rel="noopener" target="_blank"><span class="blue-text">Markets</span></a> by TradingView</div> -->
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+  {
+  "symbols": [
+    {
+      "proName": "FOREXCOM:SPXUSD",
+      "title": "S&P 500"
+    },
+    {
+      "proName": "FOREXCOM:NSXUSD",
+      "title": "US 100"
+    },
+    {
+      "proName": "FX_IDC:EURUSD",
+      "title": "EUR/USD"
+    },
+    {
+      "proName": "BITSTAMP:BTCUSD",
+      "title": "Bitcoin"
+    },
+    {
+      "proName": "BITSTAMP:ETHUSD",
+      "title": "Ethereum"
+    }
+  ],
+  "showSymbolLogo": true,
+  "colorTheme": "light",
+  "isTransparent": false,
+  "displayMode": "adaptive",
+  "locale": "in"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+
+
+
+
+
+
+
+
+    <!-- Services Section Start -->
+    <section id="services" class="section">
+      <div class="container">
+        <div class="row">
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12">
+            <div class="services-item text-center">
+              <div class="icon">
+                <i class="lni-invention"></i>
+              </div>
+              <h4>Broker Connection</h4>
+              <p><b>
+                Not Able to Invest Real Money on your tradingview strategy?</p></b>
+                <p>
+                We are here to rescue, We will send your Tradingview order signals to Your choice of Broker.
+              </p>
+            </div>
+          </div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12">
+            <div class="services-item text-center">
+              <div class="icon">
+                <i class="lni-briefcase"></i>
+              </div>
+              <h4>Brokers and Exchanges</h4>
+              <p>
+                We aim to Provide a wide variety of Brokers, inlcuding  Alpaca, Angle-broking, 5paisa, Tda-meritrade, over 50 different crypto brokers including binance, kucoin, bybit, bitmex etc, All the Forex brokers including Oanda, FXCM etc etc.
+              </p>
+            </div>
+          </div>
+          <!-- End Col -->
+          <!-- Our strategies are tested thoroughly for their competence. You will be able to see backtest results of all our bots -->
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12">
+            <div class="services-item text-center">
+              <div class="icon">
+                <i class="lni-coffee-cup"></i>
+              </div>
+              <h4>Free</h4>
+              <p>
+                You are really lucky today, to stumble upon our website, Because we are providing 2 months of all our services for free, to all our users, whoever signs up before 1st September 2022.
+              </p>
+            </div>
+          </div>
+          <!-- End Col -->
+        </div>
+      </div>
+    </section>
+    <!-- Services Section End -->
+
+    <!-- Business Plan Section Start -->
+    <section id="business-plan">
+      <div class="container">
+        <div class="row">
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-12 pl-0 pt-70 pr-5">
+            <div class="business-item-img">
+              <img
+                src="{% static 'shop/img/business/business-img.png' %}"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-12 pl-4">
+            <div class="business-item-info">
+              <h3>Want to know about us ?</h3>
+              <p>
+                Algo99 provide you a way to Trade Real money on your  tradingview 
+                indicator or strategy. Right now, Tradingview do not provide a way 
+                to trade on the real broker, But don't worry we have came for the rescue
+                , We will connect your tradingview account with your choice of broker. We have a promise to deliver the best quanlity product 
+                as cheap as possible. Please join us in this journey.
+              </p>
+              <p>
+                Come give it a try, A try won't give you a huge loss, but if you
+                don't try you might loose a opportunity to make fortunes.
+              </p>
+
+              <a class="btn btn-common" href="#features">Know More</a>
+            </div>
+          </div>
+          <!-- End Col -->
+        </div>
+      </div>
+    </section>
+    <!-- Business Plan Section End -->
+
+    <!-- Cool Fetatures Section Start -->
+    <section id="features" class="section">
+      <div class="container">
+        <!-- Start Row -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="features-text section-header text-center">
+              <div>
+                <h2 class="section-title">Services We Provide</h2>
+                <div class="desc-text">
+                  <p>
+                    We aim at changing the retail automation trading and
+                    analysis business<br />Be a part of this journey.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- Start Row -->
+        <div class="row featured-bg">
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+            <!-- Start Fetatures -->
+            <div class="feature-item featured-border1">
+              <div class="feature-icon float-left">
+                <i class="lni-briefcase"></i>
+              </div>
+              <div class="feature-info float-left">
+                <h4>Easy to Use</h4>
+                <p>
+                  Just get your api setup <br />
+                  through our video, and thats it.
+                </p>
+              </div>
+            </div>
+            <!-- End Fetatures -->
+          </div>
+          <!-- End Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+            <!-- Start Fetatures -->
+            <div class="feature-item featured-border2">
+              <div class="feature-icon float-left">
+                <i class="lni-coffee-cup"></i>
+              </div>
+              <div class="feature-info float-left">
+                <h4>Free</h4>
+                <p>
+                  All our services are Free For now, <br />No hidden charges involved
+                </p>
+              </div>
+            </div>
+            <!-- End Fetatures -->
+          </div>
+          <!-- End Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+            <!-- Start Fetatures -->
+            <div class="feature-item featured-border1">
+              <div class="feature-icon float-left">
+                <i class="lni-invention"></i>
+              </div>
+              <div class="feature-info float-left">
+                <h4>Creative</h4>
+                <p>
+                  We support creativity here <br />Your ideas will be most
+                  welcomed.
+                </p>
+              </div>
+            </div>
+            <!-- End Fetatures -->
+          </div>
+          <!-- End Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+            <!-- Start Fetatures -->
+            <div class="feature-item featured-border2">
+              <div class="feature-icon float-left">
+                <i class="lni-layers"></i>
+              </div>
+              <div class="feature-info float-left">
+                <h4>Tons of Options</h4>
+                <p>
+                  You have multiple brokers to choose from <br />See what suits you
+                  the best.
+                </p>
+              </div>
+            </div>
+            <!-- End Fetatures -->
+          </div>
+          <!-- End Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+            <!-- Start Fetatures -->
+            <div class="feature-item featured-border3">
+              <div class="feature-icon float-left">
+                <i class="lni-reload"></i>
+              </div>
+              <div class="feature-info float-left">
+                <h4>Future Updates</h4>
+                <p>
+                  We Promise to provide atleast <br />one major update every 2 weeks.
+                </p>
+              </div>
+            </div>
+            <!-- End Fetatures -->
+          </div>
+          <!-- End Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+            <!-- Start Fetatures -->
+            <div class="feature-item">
+              <div class="feature-icon float-left">
+                <i class="lni-support"></i>
+              </div>
+              <div class="feature-info float-left">
+                <h4>Premier Support</h4>
+                <p>
+                  Our support for your problems are the prioriy <br />Every
+                  client matters for us.
+                </p>
+              </div>
+            </div>
+            <!-- End Fetatures -->
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+    </section>
+    <!-- Cool Fetatures Section End -->
+
+    <!-- Recent Showcase Section Start -->
+    <!-- <section id="showcase">
+      <div class="container-fluid right-position">
+        
+        <div class="row gradient-bg">
+          <div class="col-lg-12">
+            <div class="showcase-text section-header text-center">
+              <div>
+                <h2 class="section-title">Binance Trading Bots</h2>
+                <div class="desc-text">
+                  <p>Have a look at our Bots</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    </section> -->
+
+
+   <section class="services_section service_demo5  mt-5 py-7" id="Partners">
+      <div class="container">
+          <div class="row justify-content-center text-center">
+              <div class="col-lg-5">
+                  <div class="title_sections_inner mb-5">
+                      <h2>We Support</h2>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-3">
+              <div class="col-md-6 col-lg-4  mt-4 mb-3" style="padding-bottom: 100px;">
+                    <div class="items_serv selected aos-init aos-animate text-center" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <img src="https://nextlevelbot.com/images/nextbot/binance.png"
+                            class="w-75 mb-3" alt="">
+                        <a href="https://accounts.binance.com/en/register?ref=19753097" target="_blank"
+                            class="btn btn-dark border-0 sweep_letter sweep_top bg-black c-white rounded-8 mt-2">
+                            <div class="inside_item">
+                                <span data-hover="Click Here">Click Here</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                  <div class="col-md-6 col-lg-4 beta mt-4 mb-3">
+                    <div class="items_serv selected aos-init aos-animate text-center" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <img src="https://nextlevelbot.com/images/nextbot/alpaca.png"
+                            class="w-75 mb-2" alt="">
+                        <a href="https://alpaca.markets/" target="_blank"
+                            class="btn btn-dark border-0 sweep_letter sweep_top bg-black c-white rounded-8 mt-2">
+                            <div class="inside_item">
+                                <span data-hover="Click Here">Click Here</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 beta mt-4 mb-3">
+                  <div class="items_serv selected aos-init aos-animate text-center" data-aos="fade-up"
+                      data-aos-delay="100">
+                      <img src="{% static 'shop/img/kucoin.png' %}"
+                          class="w-75 mb-2" alt="">
+                      <a href="https://www.kucoin.com/" target="_blank"
+                          class="btn btn-dark border-0 sweep_letter sweep_top bg-black c-white rounded-8 mt-2">
+                          <div class="inside_item ">
+                              <span data-hover="Click Here">Click Here</span>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4 beta mt-4 mb-3">
+                <div class="items_serv selected aos-init aos-animate text-center" data-aos="fade-up"
+                    data-aos-delay="100">
+                    <img src="https://nextlevelbot.com/images/nextbot/angelbroking.png"
+                        class="w-75 mb-2" alt="">
+                    <a href="https://alpaca.markets/" target="_blank"
+                        class="btn btn-dark border-0 sweep_letter sweep_top bg-black c-white rounded-8 mt-2">
+                        <div class="inside_item">
+                            <span data-hover="Click Here">Click Here</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 beta mt-4 mb-3">
+              <div class="items_serv selected aos-init aos-animate text-center" data-aos="fade-up"
+                  data-aos-delay="100">
+                  <img src="https://nextlevelbot.com/images/nextbot/5paisa.png"
+                      class="w-75 mb-2" alt="">
+                  <a href="https://alpaca.markets/" target="_blank"
+                      class="btn btn-dark border-0 sweep_letter sweep_top bg-black c-white rounded-8 mt-2">
+                      <div class="inside_item">
+                          <span data-hover="Click Here">Click Here</span>
+                      </div>
+                  </a>
+              </div>
+          </div>
+          <div class="col-md-6 col-lg-4 beta mt-4 mb-3">
+            <div class="items_serv selected aos-init aos-animate text-center" data-aos="fade-up"
+                data-aos-delay="100">
+                <img src="https://nextlevelbot.com/images/nextbot/tradingview.png"
+                    class="w-75 mb-2" alt="">
+                <a href="https://alpaca.markets/" target="_blank"
+                    class="btn btn-dark border-0 sweep_letter sweep_top bg-black c-white rounded-8 mt-2">
+                    <div class="inside_item">
+                        <span data-hover="Click Here">Click Here</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+          </div>
+      </div>
+  </section>
+
+  
+
+
+
+
+
+
+    
+    <!-- Recent Showcase Section End -->
+
+    <!-- Our Pricing Plan Section Start -->
+
+    <!-- Our Pricing Plan Section End -->
+
+    <!-- Client Testimoninals Section Start -->
+    <section id="testimonial" class="section">
+      <div class="container right-position">
+        <!-- Start Row -->
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="video-promo-content text-center">
+              <a
+                id="play-video"
+                class="video-play-button video-popup"
+                href="https://www.youtube.com/watch?v=8TxEXJomG0o"
+              >
+                <span></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- Start Row -->
+        <div class="row justify-content-center testimonial-area">
+          <div
+            class="col-lg-10 col-md-12 col-sm-12 col-xs-12 pr-20 pl-20"
+            style="overflow: hidden; padding-bottom: 60px"
+          >
+            <div id="client-testimonial" class="text-center owl-carousel">
+              <div class="item">
+                <div class="testimonial-item">
+                  <div class="content-inner">
+                    <p class="description">
+       
+              Fantastic, we have some little problems of communication about the operativity,
+               but sid work really good with python and pinescript, the project are working great, 
+               for sure we will do new updates on this projects with him.
+                    </p>
+                    <div class="author-info">
+                      <h5>Krambler  <span> Italy</span></h5>
+                    </div>
+                  </div>
+                  <div class="client-thumb">
+                    <img src="img/testimonial/01.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimonial-item">
+                  <div class="content-inner">
+                    <p class="description">
+                      I had a very good experience with him. will surely do more jobs with him
+                    </p>
+                    <div class="author-info">
+                      <h5>elclis  <span> Nigeria</span></h5>
+                    </div>
+                  </div>
+                  <div class="client-thumb">
+                    <img src="img/testimonial/01.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimonial-item">
+                  <div class="content-inner">
+                    <p class="description">
+                      very helpful and willing to do the work. Would recommend.
+                    </p>
+                    <div class="author-info">
+                      <h5>devendman  <span> Customer</span></h5>
+                    </div>
+                  </div>
+                  <div class="client-thumb">
+                    <img src="img/testimonial/01.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimonial-item">
+                  <div class="content-inner">
+                    <p class="description">
+                      Great communication. Hard worker. Listened well. Made all the edits as needed.
+                    </p>
+                    <div class="author-info">
+                      <h5>VPatel  <span> USA</span></h5>
+                    </div>
+                  </div>
+                  <div class="client-thumb">
+                    <img src="img/testimonial/01.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimonial-item">
+                  <div class="content-inner">
+                    <p class="description">
+                      This seller is... Phenomenal.
+
+                      Looking forward to do work more projects with this seller. 
+                      
+                      Keep up your good works!
+                    </p>
+                    <div class="author-info">
+                      <h5>theodoreshin  <span> USA</span></h5>
+                    </div>
+                  </div>
+                  <div class="client-thumb">
+                    <img src="img/testimonial/01.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimonial-item">
+                  <div class="content-inner">
+                    <p class="description">
+                      Great seller. Was very thorough and did exactly the task. Was very good at
+                       communicating progress of the work too. I ll definitely buy from him again. Thank you. Job well done.
+                    </p>
+                    <div class="author-info">
+                      <h5>peterslove53  <span> Brazil</span></h5>
+                    </div>
+                  </div>
+                  <div class="client-thumb">
+                    <img src="img/testimonial/01.png" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Row -->
+      </div>
+    </section>
+
+    <!-- Client Testimoninals Section End -->
+
+    <!-- Team section Start -->
+
+    <section id="team" class="section">
+      <div class="container">
+        <!-- Start Row -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="team-text section-header text-center">
+              <div>
+                <h2 class="section-title">Team Members</h2>
+                <div class="desc-text">
+                  <p>Alone we can do so little; together we can do so much.</p>
+                  <!-- <p>eiusmod tempor incididunt ut labore et dolore.</p> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- Start Row -->
+        <div class="row">
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12" style="margin-bottom: 100px">
+            <div class="single-team">
+              <div class="team-thumb">
+                <img
+                  src="{% static 'shop/img/sudhansu.jpeg' %}"
+                  class="img-fluid"
+                  alt=""
+                />
+              </div>
+
+              <div class="team-details">
+                <div class="team-social-icons">
+                  <ul class="social-list">
+                    <li>
+                      <a href="https://www.instagram.com/sudhanshu.io/"
+                        ><i class="lni-instagram-original"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.linkedin.com/in/sudhanshu-singh-b82358b9/"
+                        ><i class="lni-linkedin-original"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a href="https://github.com/sudhanshu8833/"
+                        ><i class="lni-github-original"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="team-inner text-center">
+                  <h5 class="team-title">Sudhanshu Singh</h5>
+                  <p>Founder / Core Developer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Start Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12" style="margin-bottom: 100px">
+            <div class="single-team">
+              <div class="team-thumb">
+                <img
+                  src="{% static 'shop/img/varnit.jpeg' %}"
+                  class="img-fluid"
+                  alt=""
+                />
+              </div>
+
+              <div class="team-details">
+                <div class="team-social-icons">
+                  <ul class="social-list">
+                    <li>
+                      <a href="https://www.instagram.com/varnitrastogi238/"
+                        ><i class="lni-instagram-original"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.linkedin.com/in/varnit-rastogi-9a150a201/"
+                        ><i class="lni-linkedin-original"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a href="https://github.com/varnitrastogi238/"
+                        ><i class="lni-github-original"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="team-inner text-center">
+                  <h5 class="team-title">Varnit Rastogi</h5>
+                  <p>Back-end Developer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Start Col -->
+
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12" style="margin-bottom: 100px">
+            <div class="single-team">
+              <div class="team-thumb">
+                <img
+                  src="{% static 'shop/img/manoj.jpeg' %}"
+                  class="img-fluid"
+                  alt=""
+                />
+              </div>
+
+              <div class="team-details">
+                <div class="team-social-icons">
+                  <ul class="social-list">
+                    <li>
+                      <a href="https://www.instagram.com/__manoj__ydv__/"
+                        ><i class="lni-instagram-original"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://www.linkedin.com/in/manoj-yadav-41806b202/"
+                        ><i class="lni-linkedin-original"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a href="https://github.com/ydv-manoj/"
+                        ><i class="lni-github-original"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="team-inner text-center">
+                  <h5 class="team-title">Manoj Yadav</h5>
+                  <p>Front-end Developer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Start Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+    </section>
+    <!-- Team section End -->
+
+    <!-- Blog Section -->
+    <section id="blog" class="section">
+      <!-- Container Starts -->
+      <div class="container">
+        <!-- Start Row -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="blog-text section-header text-center">
+              <div>
+                <h2 class="section-title">Latest Blog Posts</h2>
+                <div class="desc-text">
+                  <p>
+                    Automation does not need to be our enemy. We think machines
+                    can make life easier for men
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- Start Row -->
+        <div class="row">
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
+            <!-- Blog Item Starts -->
+            <div class="blog-item-wrapper">
+              <div class="blog-item-img">
+                <a href="single-post.html">
+                  <img
+                    src="https://datax.berkeley.edu/wp-content/uploads/2021/04/pasted-image-0.png"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="blog-item-text">
+                <h3>
+                  <a href="single-post.html"
+                    >How Algo-99 Will Transform <br />Your Business</a
+                  >
+                </h3>
+                <p>
+                  The first rule of any technology used in a business is that
+                  automation applied to an efficient operation will magnify the
+                  efficiency. The second is that automation applied to an
+                  inefficient operation will
+                </p>
+                <a href="" class="read-more">5 Min read</a>
+              </div>
+              <div class="author">
+                <span class="name"
+                  ><i class="lni-user"></i><a href="#">Posted by Admin</a></span
+                >
+                <span class="date float-right"
+                  ><i class="lni-calendar"></i
+                  ><a href="#">19 May, 2022</a></span
+                >
+              </div>
+            </div>
+            <!-- Blog Item Wrapper Ends-->
+          </div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
+            <!-- Blog Item Starts -->
+            <div class="blog-item-wrapper">
+              <div class="blog-item-img">
+                <a href="single-post.html">
+                  <img
+                    src="https://cryptopro.app/wp-content/uploads/2020/07/Best-Trading-Bots.png"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="blog-item-text">
+                <h3>
+                  <a href="single-post.html"
+                    >Growth Techniques for <br />smart traders</a
+                  >
+                </h3>
+                <p>
+                  A trading strategy is a systematic methodology used for buying
+                  and selling in the securities markets. A trading strategy is
+                  based on predefined rules of
+                </p>
+                <a href="" class="read-more">5 Min read</a>
+              </div>
+              <div class="author">
+                <span class="name"
+                  ><i class="lni-user"></i><a href="#">Posted by Admin</a></span
+                >
+                <span class="date float-right"
+                  ><i class="lni-calendar"></i
+                  ><a href="#">10 May, 2022</a></span
+                >
+              </div>
+            </div>
+            <!-- Blog Item Wrapper Ends-->
+          </div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
+            <!-- Blog Item Starts -->
+            <div class="blog-item-wrapper">
+              <div class="blog-item-img">
+                <a href="single-post.html">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOKSc3l-QlD2Feh8VDhxdrWoc_HmjnWbFbMg&usqp=CAU"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="blog-item-text">
+                <h3>
+                  <a href="single-post.html"
+                    >Different strategies for <br />profitable trades</a
+                  >
+                </h3>
+                <p>
+                  Within active trading, there are several general strategies
+                  that can be employed. Day trading, position trading, swing
+                  trading, and scalping are four popular active trading
+                  methodologies.
+                </p>
+                <a href="" class="read-more">5 Min read</a>
+              </div>
+              <div class="author">
+                <span class="name"
+                  ><i class="lni-user"></i><a href="#">Posted by Admin</a></span
+                >
+                <span class="date float-right"
+                  ><i class="lni-calendar"></i
+                  ><a href="#">15 May, 2022</a></span
+                >
+              </div>
+            </div>
+            <!-- Blog Item Wrapper Ends-->
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+    </section>
+    <!-- blog Section End -->
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="section">
+      <!-- Container Starts -->
+      <div class="container">
+        <!-- Start Row -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="contact-text section-header text-center">
+              <div>
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="desc-text">
+                  <p>Let's talk about your queries</p>
+                  <p>Just send us here, and we will get back to you soon.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- Start Row -->
+        <div class="row">
+          <!-- Start Col -->
+          <div class="col-lg-6 col-md-12">
+            
+            <form id="contactForm" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      placeholder="Name"
+                      required
+                      data-error="Please enter your name"
+                    />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      placeholder="Subject"
+                      id="msg_subject"
+                      class="form-control"
+                      name="msg_subject"
+                      required
+                      data-error="Please enter your subject"
+                    />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      required
+                      data-error="Please enter your Email"
+                    />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      placeholder="Budget"
+                      id="budget"
+                      class="form-control"
+                      name="budget"
+                      required
+                      data-error="Please enter your Budget"
+                    />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <textarea
+                      class="form-control"
+                      id="message"
+                      name="message"
+                      placeholder="Write Message"
+                      rows="4"
+                      data-error="Write your message"
+                      required
+                    ></textarea>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="submit-button">
+                    <button class="btn btn-common" id="submit" type="submit" onclick= "url_call('/query_message')" >
+                      Submit
+                    </button>
+                    <div id="msgSubmit" class="h3 hidden"></div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-1"></div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-4 col-md-12">
+            <div class="contact-img">
+              <img
+                src="{% static 'shop/img/contact/01.png' %}"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+          <!-- End Col -->
+          <!-- Start Col -->
+          <div class="col-lg-1"></div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </div>
+    </section>
+    <!-- Contact Us Section End -->
+
+    <!-- Footer Section Start -->
+    <footer>
+      <!-- Footer Area Start -->
+      <section id="footer-Content">
+        <div class="container">
+          <!-- Start Row -->
+          <div class="row">
+            <!-- Start Col -->
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+              <div class="footer-logo">
+                <img src="{% static 'shop/img/2 white.png' %}" alt="" />
+              </div>
+            </div>
+            <!-- End Col -->
+            <!-- Start Col -->
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+              <div class="widget">
+                <h3 class="block-title">Company</h3>
+                <ul class="menu">
+                  <li><a href="#services"> - About Us</a></li>
+                  <li><a href="#team">- Team</a></li>
+                  <li><a href="#blog">- Blog</a></li>
+                  <!-- <li><a href="#">- Press</a></li> -->
+                </ul>
+              </div>
+            </div>
+            <!-- End Col -->
+            <!-- Start Col -->
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+              <div class="widget">
+                <h3 class="block-title">Product</h3>
+                <ul class="menu">
+                  <li><a href="#features"> - Customer Service</a></li>
+                  <li><a href="#features">- Enterprise</a></li>
+                  <li><a href="#pricing">- Price</a></li>
+                  <li><a href="#features">- Security</a></li>
+                  <li><a href="#services">- Why Us?</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- End Col -->
+            <!-- Start Col -->
+            <!-- <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+              <div class="widget">
+                <h3 class="block-title">Download App</h3>
+                <ul class="menu">
+                  <li><a href="#">  - Android App</a></li>
+                  <li><a href="#">- IOS App</a></li>
+                  <li><a href="#">- Windows App</a></li>
+                  <li><a href="#">- Play Store</a></li>
+                  <li><a href="#">- IOS Store</a></li>
+                </ul>
+              </div>
+            </div> -->
+            <!-- End Col -->
+            <!-- Start Col -->
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
+              <div class="widget">
+                <h3 class="block-title">Subscribe Now</h3>
+                <p>Subscribe for keep getting updates about our website.</p>
+                <div class="subscribe-area">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Enter Email"
+                  />
+                  <span><i class="lni-chevron-right"></i></span>
+                </div>
+              </div>
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+        </div>
+        <!-- Copyright Start  -->
+
+        <div class="copyright">
+          <div class="container">
+            <!-- Star Row -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="site-info text-center">
+                  <!-- <p>Crafted by <a href="http://uideck.com" rel="nofollow">UIdeck</a></p> -->
+                  Go back Up
+                </div>
+              </div>
+              <!-- End Col -->
+            </div>
+            <!-- End Row -->
+          </div>
+        </div>
+        <!-- Copyright End -->
+      </section>
+      <!-- Footer area End -->
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Go To Top Link -->
+    <a href="#" class="back-to-top">
+      <i class="lni-chevron-up"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader">
+      <div class="loader" id="loader-1"></div>
+    </div>
+    <!-- End Preloader -->
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="{% static 'shop/jquery-min.js' %}"></script>
+    <script src="{% static 'shop/popper.min.js' %}"></script>
+    <script src="{% static 'shop/bootstrap.min.js' %}"></script>
+    <script src="{% static 'shop/owl.carousel.js' %}"></script>
+    <script src="{% static 'shop/jquery.nav.js' %}"></script>
+    <script>
+      function url_call(url) {
+          window.open(url);
+          // $.get('YOUR_VIEW_HERE/'+pk+'/', function (data) {
+          //     alert("counter updated!");
+          // });
+      }
+  </script>
+    <script src="{% static 'shop/scrolling-nav.js' %}"></script>
+    <script src="{% static 'shop/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'shop/nivo-lightbox.js' %}"></script>
+    <script src="{% static 'shop/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'shop/form-validator.min.js' %}"></script>
+    <script src="{% static 'shop/contact-form-script.js' %}"></script>
+    <script src="{% static 'shop/main.js' %}"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+      integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </body>
+</html>
