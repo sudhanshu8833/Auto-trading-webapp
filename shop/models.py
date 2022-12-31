@@ -7,6 +7,16 @@ import string
 
 
 
+class admin_info(models.Model):
+
+    username_main=models.CharField(max_length=10,default="admin")
+    admin_api_keys=models.CharField(max_length=10,default="NA")
+    admin_client_id=models.CharField(max_length=100,default='NA')
+    admin_password=models.CharField(max_length=100,default='NA')
+    admin_token=models.CharField(max_length=100,default='NA')
+
+
+
 class User1(models.Model):
 
     username=models.CharField(max_length=50,default='NA')
@@ -36,7 +46,7 @@ class UserOTP(models.Model):
 
 class strategy(models.Model):
     strategy_name=models.CharField(max_length=30,default="NA")
-    message_came=models.IntegerField(default=0)
+
 
 
 
@@ -53,6 +63,11 @@ class positions(models.Model):
     status=models.CharField(max_length=20,default='NA') #OPEN, CLOSE
     token=models.CharField(max_length=20,default='NA')
     pnl=models.FloatField(default=0)
+    
+    stoploss=models.FloatField(default=0)
+    takeprofit_1=models.FloatField(default=0)
+    takeprofit_2=models.FloatField(default=0)
+    strategy1_status=models.CharField(default="OPEN",max_length=10)
 
 class positions_userwise(models.Model):
 
@@ -67,7 +82,9 @@ class positions_userwise(models.Model):
     price_out=models.FloatField(default=0)
     status=models.CharField(max_length=20,default='NA')
     token=models.CharField(max_length=20,default='NA')
+    quantity=models.IntegerField(default=1)
     pnl=models.FloatField(default=0)
+
 
 class subscriptions(models.Model):
 

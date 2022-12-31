@@ -11,6 +11,7 @@ from django.contrib import messages
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from strategy.Volume import *
+from strategy.PPM import *
 # Create your views here.
 
 from django.contrib.auth.decorators import login_required
@@ -58,14 +59,14 @@ def webhook_alert(request):
 
     if request.method == "POST":
         if "scan_name" in data:
-            # with open("shop/strategy/data_strategy1.json", "w") as f:
-            #     # Write the data to the file as JSON
-            #     json.dump(data, f)
+            
+            start_class_volume(data)
 
-            start_class(data)
-            # t = threading.Thread(target=start_class,args=[data])
-            # t.setDaemon(True)
-            # t.start()
+        else:
+            if "System" in data:
+                if data["System"]=="PPM":
+                    start_class_PPM(data)
+
 
 
     return Response(data)

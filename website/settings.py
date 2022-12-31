@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop',
     'rest_framework',
+    'django_crontab',
 
 ]
 
@@ -149,3 +150,52 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'algo99.sudhanshu@gmail.com'
 EMAIL_HOST_PASSWORD = 'kmxmgscfhqmqbexq'
 EMAIL_USE_TLS = True
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+
+
+        'info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'log/dev.log'),
+            'formatter': 'verbose'
+        }
+
+
+
+    },
+
+    'loggers': {
+        # 'django': {
+        #     'handlers': ['file'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+
+        'dev_log': {
+            'handlers': ['info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+    },
+}
+
+CRONJOBS = [
+    ('* * * * *', 'shop.cron.my_scheduled_job')
+]
