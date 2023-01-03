@@ -12,13 +12,17 @@ def this_scripts():
 
     df1=df[:1]
 
-    # for i in range(len(df)):
-    #     print(i)
+    for i in range(len(df)):
+        print(i)
 
-    #     if 'NIFTY' in df['symbol'][i][:6] and 'NFO' in df['exch_seg'][i]:
-    #         df1.loc[len(df1.index)] = df.loc[i] 
-    #     else:
-    #         continue
-    # print(df)
+        if '-EQ' in df['symbol'][i] and 'NSE' in df['exch_seg'][i]:
+            df1.loc[len(df1.index)] = df.loc[i] 
+        else:
+            continue
 
-    df1.to_csv("shop/strategy/scripts.csv")
+
+    df1.to_csv("scripts.csv")
+
+
+if __name__=="__main__":
+    this_scripts()

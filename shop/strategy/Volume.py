@@ -1,8 +1,10 @@
-from models import *
+from shop.models import *
 from datetime import datetime,time
 from pytz import timezone
 import ast
 import pandas as pd
+import pyotp
+from smartapi import SmartConnect
 
 def start_class_volume(json_data):
     strategy=run_volume(json_data)
@@ -13,8 +15,16 @@ class run_volume():
 
     def __init__(self,json_data):
         self.json_data=json_data
-        self.tokens={}
-        self.tokens=self.calculate_tokens()
+        self.token={}
+        self.calculate_tokens()
+        self.login()
+
+    def login(self):
+        admin=admin_info.objects.get(username_main="admin")
+        self.obj=SmartConnect(api_key=admin.admin_api_keys)
+        self.obj.generateSession(admin.admin_client_id,admin.admin_password,pyotp.TOTP(admin.admin_token).now())
+
+
 
     def calculate_tokens(self):
         df = pd.read_csv('shop/strategy/scripts.csv')
@@ -24,7 +34,7 @@ class run_volume():
 
         for i in range(len(df)):
             for j in range(len(stocks)):
-
+                print(i)
                 if stocks[j]+'-EQ' ==df['symbol'][i]:
                     self.token[str(df['symbol'][i])] = str(df['token'][i])
 
@@ -51,26 +61,6 @@ class run_volume():
 
         for i in range(len(stocks)):
             if '0pen_H!gh' in self.json_data.values():
-                order_type="sell"
-                opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
-                # stock_list_open=opened_positions.values_list("symbol")
-                
-                for j in range(len(opened_positions)):
-                    if stocks[i]==opened_positions[j].symbol:
-                        if opened_positions[j].side=="sell":
-                            del stocks[i]
-                            del trigger_prices[i]
-
-
-                        else:
-                            self.close_position(opened_positions[j])
-                            del stocks[i]
-                            del trigger_prices[i]
-
-
-
-
-            else:
                 order_type="buy"
                 opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
                 # stock_list_open=opened_positions.values_list("symbol")
@@ -78,18 +68,45 @@ class run_volume():
                 for j in range(len(opened_positions)):
                     if stocks[i]==opened_positions[j].symbol:
                         if opened_positions[j].side=="sell":
-                            del stocks[i]
-                            del trigger_prices[i]
 
+                            self.close_position(opened_positions[j])
+                            stocks[i]="-NA"
+                            trigger_prices[i]="-NA"
+
+                            break
 
                         else:
+                            stocks[i]="-NA"
+                            trigger_prices[i]="-NA"
+
+                            break
+
+
+
+
+            else:
+                order_type="sell"
+                opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
+                # stock_list_open=opened_positions.values_list("symbol")
+                
+                for j in range(len(opened_positions)):
+                    if stocks[i]==opened_positions[j].symbol:
+                        if opened_positions[j].side=="buy":
+
                             self.close_position(opened_positions[j])
-                            del stocks[i]
-                            del trigger_prices[i]
+                            stocks[i]="-NA"
+                            trigger_prices[i]="-NA"
+                            break
+
+                        else:
+                            stocks[i]="-NA"
+                            trigger_prices[i]="-NA"
+                            break
 
 
         for i in range(len(stocks)):
-
+            if (stocks[i]=="-NA"):
+                continue
             stock_data=self.obj.ltpData("NSE",stocks[i]+'-EQ' ,self.token[stocks[i]+'-EQ'])['data']
 
             if order_type=="buy":
@@ -104,11 +121,11 @@ class run_volume():
 
             position=positions(strategy_name="Volume Based Intraday",
                         symbol=stocks[i],
-                        time_in=datetime.now(timezone="Asia/Kolkata"),
+                        time_in=datetime.now(timezone("Asia/Kolkata")),
                         price_in=trigger_prices[i],
                         side=order_type,
                         current_price=stock_data['ltp'],
-                        time_out=datetime.now(timezone="Asia/Kolkata"),
+                        time_out=datetime.now(timezone("Asia/Kolkata")),
                         price_out=0,
                         status='OPEN',
                         token=self.token[stocks[i]+'-EQ'],
@@ -129,12 +146,12 @@ class run_volume():
                     user_position=positions_userwise(username=subs[i].username,
                         strategy_name="Volume Based Intraday",
                         symbol=user_symbols[j],
-                        time_in=datetime.now(timezone="Asia/Kolkata"),
+                        time_in=datetime.now(timezone("Asia/Kolkata")),
                         price_in=trigger_prices[i],
                         side=order_type,
                         current_price=0,
                         quantity=subs[i].quantity,
-                        time_out=datetime.now(timezone="Asia/Kolkata"),
+                        time_out=datetime.now(timezone("Asia/Kolkata")),
                         price_out=0,
                         status='OPEN',
                         token=self.token[stocks[i]+'-EQ'],

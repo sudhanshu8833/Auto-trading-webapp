@@ -1,8 +1,10 @@
-from models import *
+from shop.models import *
 from datetime import datetime,time
 from pytz import timezone
 import ast
 import pandas as pd
+import pyotp
+from smartapi import SmartConnect
 
 def start_class_PPM(json_data):
     strategy=run_PPM(json_data)
@@ -12,17 +14,29 @@ def start_class_PPM(json_data):
 class run_PPM():
 
     def __init__(self,json_data):
+
         self.json_data=json_data
-        self.tokens={}
-        self.tokens=self.calculate_tokens()
+        self.token={}
+        self.calculate_tokens()
+        self.login()
+
+    def login(self):
+        admin=admin_info.objects.get(username_main="admin")
+        self.obj=SmartConnect(api_key=admin.admin_api_keys)
+        self.obj.generateSession(admin.admin_client_id,admin.admin_password,pyotp.TOTP(admin.admin_token).now())
+
+
 
     def calculate_tokens(self):
         df = pd.read_csv('shop/strategy/scripts.csv')
 
+
+
         for i in range(len(df)):
 
-                if self.json_data["stocks"]+'-EQ' == df['symbol'][i]:
-                    self.token[str(df['symbol'][i])] = str(df['token'][i])
+            if self.json_data["stocks"]+'-EQ' ==df['symbol'][i]:
+                self.token[str(df['symbol'][i])] = str(df['token'][i])
+
 
 
     def close_position(self,data):
@@ -33,21 +47,19 @@ class run_PPM():
             users_opened_positions[i].status="CLOSED"
             users_opened_positions[i].price_out=float(self.json_data['trigger_price'])
             users_opened_positions[i].current_price=float(self.json_data['trigger_price'])
-            users_opened_positions[i].time_out=datetime.now(timezone="Asia/Kolkata")
+            users_opened_positions[i].time_out=datetime.now(timezone("Asia/Kolkata"))
             users_opened_positions[i].save()
 
         data.price_out=float(self.json_data['trigger_price'])
         data.current_price=float(self.json_data['trigger_price'])
-        data.time_out=datetime.now(timezone="Asia/Kolkata")
+        data.time_out=datetime.now(timezone("Asia/Kolkata"))
         data.status="CLOSED"
         data.save()
 
 
     def _updated_market_order(self):
 
-
-
-        if self.json_data["triggered_type"]()=="sell":
+        if self.json_data["triggered_type"]=="sell":
             order_type="sell"
             opened_positions=positions.objects.filter(strategy_name="PPM",status="OPEN")
 
@@ -59,12 +71,12 @@ class run_PPM():
 
                     else:
                         self.close_position(opened_positions[j])
-                        return "NA"
+                        
 
 
 
 
-        elif self.json_data["triggered_type"]()=="buy":
+        elif self.json_data["triggered_type"]=="buy":
             order_type="buy"
             opened_positions=positions.objects.filter(strategy_name="PPM",status="OPEN")
 
@@ -76,7 +88,7 @@ class run_PPM():
 
                     else:
                         self.close_position(opened_positions[j])
-                        return "NA"
+                        
 
 
         
@@ -128,10 +140,5 @@ class run_PPM():
         self._updated_market_order()
 
 
-    # def update_ltp(self):
-    #     opened_positions = positions.objects.filter(strategy_name="PPM", status="OPEN")
 
-    #     for i in range(len(opened_positions)):
-    #         opened_positions[i].current_price=self.obj.ltpData("NSE",opened_positions[i].symbol+'-EQ' ,opened_positions[i].token)['data']['ltp']
-    #         opened_positions[i].save()
 

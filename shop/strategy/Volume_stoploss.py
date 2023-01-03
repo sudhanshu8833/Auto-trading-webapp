@@ -1,4 +1,4 @@
-from models import *
+from shop.models import *
 from datetime import datetime,time
 
 import pyotp
@@ -19,8 +19,8 @@ class run_volume():
     
     def login(self):
         admin=admin_info.objects.get(username_main="admin")
-        self.obj=SmartConnect(api_key=admin.angel_api_keys)
-        self.obj.generateSession(admin.angel_client_id,admin.angel_password,pyotp.TOTP(admin.angel_token).now())
+        self.obj=SmartConnect(api_key=admin.admin_api_keys)
+        self.obj.generateSession(admin.admin_client_id,admin.admin_password,pyotp.TOTP(admin.admin_token).now())
 
 
     def update_ltp(self):
@@ -86,7 +86,7 @@ class run_volume():
     def main(self):
         while True:
             
-            if time(3, 20) <= datetime.now(timezone("Asia/Kolkata")).time():
+            if time(15, 20) <= datetime.now(timezone("Asia/Kolkata")).time():
                 opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
                 for i in range(len(opened_positions)):
                     self.close_position(opened_positions[i])
@@ -94,3 +94,5 @@ class run_volume():
             else:
                 self.update_ltp()
                 self.check_updates()
+
+

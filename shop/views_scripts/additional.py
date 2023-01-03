@@ -6,7 +6,7 @@ from django.contrib import messages
 from shop.views import *
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from shop.helpful_scripts.object import *
+# from shop.helpful_scripts.object import *
 from django.contrib.auth import authenticate,  login, logout
 
 
@@ -30,7 +30,9 @@ def error(request):
 
 @login_required(login_url='/signup')
 def add_api(request):
+
     current_user = request.user
     myuser = User1.objects.get(username=current_user)
     params = {'myuser': myuser}
+    
     return render(request, "shop/add_api_credentials.html", params)

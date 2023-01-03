@@ -1,6 +1,4 @@
 
-
-
 from .views_scripts.helpful import *
 from .views_scripts.additional import *
 
@@ -10,8 +8,9 @@ from django.contrib import messages
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from strategy.Volume import *
-from strategy.PPM import *
+from .strategy.Volume import *
+from .strategy.PPM import *
+from .strategy.Volume_stoploss import *
 # Create your views here.
 
 from django.contrib.auth.decorators import login_required
@@ -29,23 +28,23 @@ import threading
 def key(request):
     current_user = request.user
     if request.method == "POST":
-        brokerr = request.POST['broker']
 
-        if brokerr == "angel":
-            angelapi = request.POST['api']
-            angelid = request.POST['client']
-            angelpassword = request.POST['pass']
+        angelapi = request.POST['api']
+        angelid = request.POST['client']
+        angelpassword = request.POST['pass']
+        token = request.POST['token']
 
-            myuser = User1.objects.get(username=current_user)
+        myuser = User1.objects.get(username=current_user)
 
-            # make_object_alpaca(alpacaapi,alpacasecret,uri,myuser.username)
 
-            myuser.angel_api_keys = angelapi
-            myuser.angel_client_id = angelid
-            myuser.angel_password = angelpassword
-            myuser.save()
-            messages.success(request, "Successfully Added/Changed Angel Keys")
-            return redirect('index')
+
+        myuser.angel_api_keys = angelapi
+        myuser.angel_client_id = angelid
+        myuser.angel_password = angelpassword
+        myuser.angel_token = token
+        myuser.save()
+        messages.success(request, "Successfully Added/Changed Angel Keys")
+        return redirect('index')
 
         messages.error(request, "some problem occured ..!!")
         return redirect('index')
@@ -61,6 +60,9 @@ def webhook_alert(request):
         if "scan_name" in data:
             
             start_class_volume(data)
+            # start_stoploss_for_volume()
+
+        
 
         else:
             if "System" in data:

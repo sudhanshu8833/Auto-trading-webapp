@@ -1,4 +1,5 @@
 
+
 from django.contrib.auth.decorators import login_required
 from shop.models import *
 from django.shortcuts import render, redirect
@@ -6,9 +7,11 @@ from django.contrib import messages
 from shop.views import *
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from shop.helpful_scripts.object import *
+# from shop.helpful_scripts.object import *
 from django.contrib.auth import authenticate,  login, logout
 from django.conf import settings
+from pytz import timezone
+from datetime import datetime,timedelta
 
 
 def home(request):
@@ -17,76 +20,241 @@ def home(request):
 
 @login_required(login_url='/signup')
 def setting(request):
+
     current_user = request.user
     if request.method == "POST":
-        fullname = request.POST['fullname']
-        number = request.POST['number']
-        ifsc = request.POST['ifsc']
-        binanceapi = request.POST['binanceapi']
-        binancesecret = request.POST['binancesecret']
-        angelapi = request.POST['angelapi']
-        angelusername = request.POST['angelusername']
-        angelpassword = request.POST['angelpassword']
-        myuser = User1.objects.get(username=current_user)
-        myuser.fullname = fullname
-        myuser.ifsc = ifsc
-        myuser.account_num = number
-        myuser.binance_API_keys = binanceapi
-        myuser.binance_Secret_Keys = binancesecret
-        myuser.angel_API_keys = angelapi
-        myuser.angel_username = angelusername
-        myuser.angel_password = angelpassword
-        myuser.save()
-        buy1 = None
-        try:
-            buy1 = BOT1.objects.get(email=current_user.email)
-        except:
-            pass
-        if(buy1):
-            buy1.binance_API_keys = binanceapi
-            buy1.binance_Secret_Keys = binancesecret
-            buy1.save()
-        buy2 = None
-        try:
-            buy2 = BOT2.objects.get(email=current_user.email)
-        except:
-            pass
-        if(buy2):
-            buy2.binance_API_keys = binanceapi
-            buy2.binance_Secret_Keys = binancesecret
-            buy2.save()
-        buy3 = None
-        try:
-            buy3 = BOT3.objects.get(email=current_user.email)
-        except:
-            pass
-        if(buy3):
-            buy3.angel_API_keys = angelapi
-            buy3.angel_username = angelusername
-            buy3.angel_password = angelpassword
-        buy4 = None
-        try:
-            buy4 = BOT4.objects.get(email=current_user.email)
-        except:
-            pass
-        if(buy4):
-            buy4.angel_API_keys = angelapi
-            buy4.angel_username = angelusername
-            buy4.angel_password = angelpassword
+
+        subs=subscriptions.objects.filter(username=current_user)
+
+        for i in range(len(subs)):
+            if subs[i].strategy_name=="Volume Based Intraday":
+                subs[i].symbols='['+request.POST.get("symbol_1")+']'
+                subs[i].quantity=int(request.POST.get("quantity_1"))
+                subs[i].save()
+
+            elif subs[i].strategy_name=="PPM":
+                subs[i].symbols='['+request.POST.get("symbol_2")+']'
+                subs[i].quantity=int(request.POST.get("quantity_2"))
+                subs[i].save()
+
+            elif subs[i].strategy_name=="PPM BTST":
+                subs[i].symbols='['+request.POST.get("symbol_3")+']'
+                subs[i].quantity=int(request.POST.get("quantity_3"))
+                subs[i].save()
+
+            elif subs[i].strategy_name=="strategy4":
+                subs[i].symbols='['+request.POST.get("symbol_4")+']'
+                subs[i].quantity=int(request.POST.get("quantity_4"))
+                subs[i].save()
+
+            elif subs[i].strategy_name=="strategy5":
+                subs[i].symbols='['+request.POST.get("symbol_5")+']'
+                subs[i].quantity=int(request.POST.get("quantity_5"))
+                subs[i].save()
+
         messages.success(request, "Your details added successfully!!")
         return redirect('index')
+
+
     myuser = User1.objects.get(username=current_user)
     params = {'myuser': myuser}
     return render(request, "shop/settings.html", params)
 
 
 
+def is_today(dt):
+    today = datetime.now(timezone("Asia/Kolkata")).date()
+    return dt.date() == today
+
+def is_thisweek(dt):
+    now = datetime.now(timezone("Asia/Kolkata"))
+    seven_days_ago = now - timedelta(days=7)
+    return dt > seven_days_ago
+
+def is_this_year(dt):
+    now = datetime.now(timezone("Asia/Kolkata"))
+    return dt.year == now.year
+
+def activate_bot(request,passphrase):
+    current_user=request.user
+    
+    if passphrase=="Volume Based Intraday":
+        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+        if record.status=="off":
+            record.status="on"
+            record.save()
+
+        else:
+            record.status="off"
+            record.save()
+
+    if passphrase=="PPM":
+        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+        if record.status=="off":
+            record.status="on"
+            record.save()
+
+        else:
+            record.status="off"
+            record.save()
+
+    if passphrase=="PPM BTST":
+        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+        if record.status=="off":
+            record.status="on"
+            record.save()
+
+        else:
+            record.status="off"
+            record.save()
 
 
-def terms(request):
-    return render(request, "shop/terms.html")
+    if passphrase=="strategy4":
+        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+        if record.status=="off":
+            record.status="on"
+            record.save()
+
+        else:
+            record.status="off"
+            record.save()
 
 
+    if passphrase=="strategy5":
+        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+        if record.status=="off":
+            record.status="on"
+            record.save()
+
+        else:
+            record.status="off"
+            record.save()
+
+
+
+    return redirect('index')
+
+def strategies(request):
+    current_user=request.user
+    strat=strategy.objects.all()
+    param=[]
+    for j in range(len(strat)):
+        position=positions.objects.filter(strategy_name=strat[j].strategy_name)
+
+        data={}
+        overall_pnl=0
+        today_pnl=0
+        week_pnl=0
+        year_pnl=0
+
+        for i in range(len(position)):
+            if position[i].side=="buy":
+                pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
+                position[i].pnl=round(pnl,2)
+                position[i].save()
+                overall_pnl+=pnl
+
+                if is_thisweek(position[i].time_in):
+                    week_pnl+=pnl
+
+                if is_today(position[i].time_in):
+                    today_pnl+=pnl
+
+                if is_this_year(position[i].time_in):
+                    year_pnl+=pnl
+
+            else:
+                pnl=((position[i].price_in-position[i].current_price)/position[i].current_price)*100
+                position[i].pnl=round(pnl,2)
+                position[i].save()
+                overall_pnl+=pnl
+
+                if is_today(position[i].time_in):
+                    today_pnl+=pnl
+
+                if is_thisweek(position[i].time_in):
+                    week_pnl+=pnl
+
+                if is_this_year(position[i].time_in):
+                    year_pnl+=pnl
+
+
+        data['week_pnl']=round(week_pnl,2)
+        data['year_pnl']=round(year_pnl,2)
+        data['today_pnl']=round(today_pnl,2)
+        data['overall_pnl']=round(overall_pnl,2)
+        data['strategy_name']=strat[j].strategy_name
+
+        data['positions']=position
+        # param[strat[j].strategy_name]=data
+
+        param.append(data)
+
+    params={"param":param,"myuser":current_user}
+    print(params)
+    return render(request, "shop/strategy.html",params)
+
+
+
+def personal(request):
+    current_user=request.user
+
+
+
+    position=positions_userwise.objects.filter(strategy_name=current_user)
+
+    data={}
+    overall_pnl=0
+    today_pnl=0
+    week_pnl=0
+    year_pnl=0
+
+    for i in range(len(position)):
+        if position[i].side=="buy":
+            pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
+            position[i].pnl=round(pnl,2)
+            position[i].save()
+            overall_pnl+=pnl
+
+            if is_thisweek(position[i].time_in):
+                week_pnl+=pnl
+
+            if is_today(position[i].time_in):
+                today_pnl+=pnl
+
+            if is_this_year(position[i].time_in):
+                year_pnl+=pnl
+
+        else:
+            pnl=((position[i].price_in-position[i].current_price)/position[i].current_price)*100
+            position[i].pnl=round(pnl,2)
+            position[i].save()
+            overall_pnl+=pnl
+
+            if is_today(position[i].time_in):
+                today_pnl+=pnl
+
+            if is_thisweek(position[i].time_in):
+                week_pnl+=pnl
+
+            if is_this_year(position[i].time_in):
+                year_pnl+=pnl
+
+
+    data['week_pnl']=round(week_pnl,2)
+    data['year_pnl']=round(year_pnl,2)
+    data['today_pnl']=round(today_pnl,2)
+    data['overall_pnl']=round(overall_pnl,2)
+
+
+    data['positions']=position
+
+
+
+
+    param={"param":data,"myuser":current_user}
+    print(param)
+    return render(request, "shop/personal.html",param)
 
 
 
@@ -143,18 +311,23 @@ def signup(request):
         myuser.is_active = False
         myuser.save()
 
-        chars = string.ascii_letters
-        size = 40
+#############################################################
+        all_strategy=strategy.objects.all()
+
+        for i in range(5):
+            subs=subscriptions(username=username,strategy_name=all_strategy[i].strategy_name,quantity=0,
+                status="off",
+                symbols="[]"
+            )
+            subs.save()
+#############################################################
 
         user = User1(username=username,
                      email=email,
                      password=password,
                      phone=phone,
-                     fullname='XYZ',
-                     binance_API_keys='NONE',
-                     binance_Secret_Keys='NONE', alpaca_api_keys="NONE",
-                     alpaca_secret_keys="NONE",
-                     alpaca_base_url="https://app.alpaca.markets", passphrase=random_string_generator(size, chars))
+                     fullname='XYZ'
+                     )
 
         user.save()
         usr_otp = random.randint(100000, 999999)
@@ -172,6 +345,9 @@ def signup(request):
 
         return render(request, "shop/signup.html", {'otp': True, 'usr': myuser})
     return render(request, "shop/signup.html")
+
+
+
 
 def forgot(request):
     if request.method == "POST":
@@ -210,20 +386,20 @@ def forgot(request):
         return render(request, "shop/forgot.html", {'otp': True, 'usr': myuser})
     return render(request, "shop/forgot.html")
 
+
+
 @login_required(login_url='/signup')
 def index(request):
-    current_user = request.user
-    total = []
-    # total2 = []
-    Buy1 = tradingview_orders.objects.all().filter(username=current_user)
-    for i in Buy1:
-        total.append(i)
-    # print(buy1)
-    # params={'zipped':zipped}
-    myuser = User1.objects.get(username=current_user)
-    print(total)
-    params = {'myuser': myuser, 'total': total}
-    return render(request, "shop/index.html", params)
+    current_user =  request.user
+    print(current_user)
+    subs=subscriptions.objects.filter(username=current_user.username)
+    print(subs)
+
+
+    print("##############################")
+
+    # params = {'myuser': myuser, 'total': total}
+    return render(request, "shop/index.html", {"data":subs, "myuser":current_user})
 
 
 def handleLogin(request):

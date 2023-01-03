@@ -14,6 +14,7 @@ class admin_info(models.Model):
     admin_client_id=models.CharField(max_length=100,default='NA')
     admin_password=models.CharField(max_length=100,default='NA')
     admin_token=models.CharField(max_length=100,default='NA')
+    expirydate=models.CharField(max_length=100,default='DDMMMYY')
 
 
 
