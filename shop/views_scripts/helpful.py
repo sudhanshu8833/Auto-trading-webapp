@@ -13,6 +13,10 @@ from django.conf import settings
 from pytz import timezone
 from datetime import datetime,timedelta
 
+import logging
+import traceback
+logger = logging.getLogger('dev_log')
+
 
 def home(request):
     return render(request, "shop/home1.html")
@@ -28,27 +32,27 @@ def setting(request):
 
         for i in range(len(subs)):
             if subs[i].strategy_name=="Volume Based Intraday":
-                subs[i].symbols='['+request.POST.get("symbol_1")+']'
+                subs[i].symbols=request.POST.get("symbol_1")
                 subs[i].quantity=int(request.POST.get("quantity_1"))
                 subs[i].save()
 
             elif subs[i].strategy_name=="PPM":
-                subs[i].symbols='['+request.POST.get("symbol_2")+']'
+                subs[i].symbols=request.POST.get("symbol_2")
                 subs[i].quantity=int(request.POST.get("quantity_2"))
                 subs[i].save()
 
             elif subs[i].strategy_name=="PPM BTST":
-                subs[i].symbols='['+request.POST.get("symbol_3")+']'
+                subs[i].symbols=request.POST.get("symbol_3")
                 subs[i].quantity=int(request.POST.get("quantity_3"))
                 subs[i].save()
 
             elif subs[i].strategy_name=="strategy4":
-                subs[i].symbols='['+request.POST.get("symbol_4")+']'
+                subs[i].symbols=request.POST.get("symbol_4")
                 subs[i].quantity=int(request.POST.get("quantity_4"))
                 subs[i].save()
 
             elif subs[i].strategy_name=="strategy5":
-                subs[i].symbols='['+request.POST.get("symbol_5")+']'
+                subs[i].symbols=request.POST.get("symbol_5")
                 subs[i].quantity=int(request.POST.get("quantity_5"))
                 subs[i].save()
 
@@ -57,7 +61,8 @@ def setting(request):
 
 
     myuser = User1.objects.get(username=current_user)
-    params = {'myuser': myuser}
+    subs=subscriptions.objects.filter(username=current_user)
+    params = {'myuser': myuser,"subs":subs}
     return render(request, "shop/settings.html", params)
 
 
@@ -78,58 +83,60 @@ def is_this_year(dt):
 def activate_bot(request,passphrase):
     current_user=request.user
     
-    if passphrase=="Volume Based Intraday":
-        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
-        if record.status=="off":
-            record.status="on"
-            record.save()
+    try:
+        if passphrase=="Volume Based Intraday":
+            record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+            if record.status=="off":
+                record.status="on"
+                record.save()
 
-        else:
-            record.status="off"
-            record.save()
+            else:
+                record.status="off"
+                record.save()
 
-    if passphrase=="PPM":
-        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
-        if record.status=="off":
-            record.status="on"
-            record.save()
+        if passphrase=="PPM":
+            record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+            if record.status=="off":
+                record.status="on"
+                record.save()
 
-        else:
-            record.status="off"
-            record.save()
+            else:
+                record.status="off"
+                record.save()
 
-    if passphrase=="PPM BTST":
-        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
-        if record.status=="off":
-            record.status="on"
-            record.save()
+        if passphrase=="PPM BTST":
+            record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+            if record.status=="off":
+                record.status="on"
+                record.save()
 
-        else:
-            record.status="off"
-            record.save()
-
-
-    if passphrase=="strategy4":
-        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
-        if record.status=="off":
-            record.status="on"
-            record.save()
-
-        else:
-            record.status="off"
-            record.save()
+            else:
+                record.status="off"
+                record.save()
 
 
-    if passphrase=="strategy5":
-        record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
-        if record.status=="off":
-            record.status="on"
-            record.save()
+        if passphrase=="strategy4":
+            record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+            if record.status=="off":
+                record.status="on"
+                record.save()
 
-        else:
-            record.status="off"
-            record.save()
+            else:
+                record.status="off"
+                record.save()
 
+
+        if passphrase=="strategy5":
+            record=subscriptions.objects.get(strategy_name=passphrase,username=current_user)
+            if record.status=="off":
+                record.status="on"
+                record.save()
+
+            else:
+                record.status="off"
+                record.save()
+    except Exception:
+        logger.info(traceback.format_exc())
 
 
     return redirect('index')
@@ -139,6 +146,9 @@ def strategies(request):
     strat=strategy.objects.all()
     param=[]
     for j in range(len(strat)):
+
+
+
         position=positions.objects.filter(strategy_name=strat[j].strategy_name)
 
         data={}
@@ -148,6 +158,75 @@ def strategies(request):
         year_pnl=0
 
         for i in range(len(position)):
+
+            try:
+                if position[i].side=="buy":
+                    pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
+                    position[i].pnl=round(pnl,2)
+                    position[i].save()
+                    overall_pnl+=pnl
+
+                    if is_thisweek(position[i].time_in):
+                        week_pnl+=pnl
+
+                    if is_today(position[i].time_in):
+                        today_pnl+=pnl
+
+                    if is_this_year(position[i].time_in):
+                        year_pnl+=pnl
+
+                else:
+                    pnl=((position[i].price_in-position[i].current_price)/position[i].current_price)*100
+                    position[i].pnl=round(pnl,2)
+                    position[i].save()
+                    overall_pnl+=pnl
+
+                    if is_today(position[i].time_in):
+                        today_pnl+=pnl
+
+                    if is_thisweek(position[i].time_in):
+                        week_pnl+=pnl
+
+                    if is_this_year(position[i].time_in):
+                        year_pnl+=pnl
+
+            except Exception:
+                logger.info(traceback.format_exc())
+
+        data['week_pnl']=round(week_pnl,2)
+        data['year_pnl']=round(year_pnl,2)
+        data['today_pnl']=round(today_pnl,2)
+        data['overall_pnl']=round(overall_pnl,2)
+        data['strategy_name']=strat[j].strategy_name
+
+        data['positions']=position
+        # param[strat[j].strategy_name]=data
+
+        param.append(data)
+
+    params={"param":param,"myuser":current_user}
+    print(params)
+    return render(request, "shop/strategy.html",params)
+
+
+
+def personal(request):
+    current_user=request.user
+
+
+
+    position=positions_userwise.objects.filter(username=current_user)
+
+    data={}
+    overall_pnl=0
+    today_pnl=0
+    week_pnl=0
+    year_pnl=0
+
+    for i in range(len(position)):
+
+
+        try:
             if position[i].side=="buy":
                 pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
                 position[i].pnl=round(pnl,2)
@@ -177,68 +256,9 @@ def strategies(request):
 
                 if is_this_year(position[i].time_in):
                     year_pnl+=pnl
+        except Exception:
+            logger.info(traceback.format_exc())
 
-
-        data['week_pnl']=round(week_pnl,2)
-        data['year_pnl']=round(year_pnl,2)
-        data['today_pnl']=round(today_pnl,2)
-        data['overall_pnl']=round(overall_pnl,2)
-        data['strategy_name']=strat[j].strategy_name
-
-        data['positions']=position
-        # param[strat[j].strategy_name]=data
-
-        param.append(data)
-
-    params={"param":param,"myuser":current_user}
-    print(params)
-    return render(request, "shop/strategy.html",params)
-
-
-
-def personal(request):
-    current_user=request.user
-
-
-
-    position=positions_userwise.objects.filter(strategy_name=current_user)
-
-    data={}
-    overall_pnl=0
-    today_pnl=0
-    week_pnl=0
-    year_pnl=0
-
-    for i in range(len(position)):
-        if position[i].side=="buy":
-            pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
-            position[i].pnl=round(pnl,2)
-            position[i].save()
-            overall_pnl+=pnl
-
-            if is_thisweek(position[i].time_in):
-                week_pnl+=pnl
-
-            if is_today(position[i].time_in):
-                today_pnl+=pnl
-
-            if is_this_year(position[i].time_in):
-                year_pnl+=pnl
-
-        else:
-            pnl=((position[i].price_in-position[i].current_price)/position[i].current_price)*100
-            position[i].pnl=round(pnl,2)
-            position[i].save()
-            overall_pnl+=pnl
-
-            if is_today(position[i].time_in):
-                today_pnl+=pnl
-
-            if is_thisweek(position[i].time_in):
-                week_pnl+=pnl
-
-            if is_this_year(position[i].time_in):
-                year_pnl+=pnl
 
 
     data['week_pnl']=round(week_pnl,2)
@@ -391,14 +411,8 @@ def forgot(request):
 @login_required(login_url='/signup')
 def index(request):
     current_user =  request.user
-    print(current_user)
     subs=subscriptions.objects.filter(username=current_user.username)
-    print(subs)
 
-
-    print("##############################")
-
-    # params = {'myuser': myuser, 'total': total}
     return render(request, "shop/index.html", {"data":subs, "myuser":current_user})
 
 

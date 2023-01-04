@@ -85,10 +85,7 @@ DATABASES = {
         'NAME': str(BASE_DIR / 'db.sqlite3'),
     },
 
-    # 'analytics': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': 'backtesting_strategies',
-    # }
+
 }
 
 
@@ -144,6 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

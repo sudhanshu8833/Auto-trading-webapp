@@ -90,8 +90,8 @@ class positions_userwise(models.Model):
 class subscriptions(models.Model):
 
     username=models.CharField(max_length=20,default='NA')
-    strategy_name=models.CharField(max_length=20,default='NA')
-    symbols=models.CharField(max_length=20,default='[]')
+    strategy_name=models.CharField(max_length=200,default='NA')
+    symbols=models.CharField(max_length=2000,default='NA')
     status=models.CharField(max_length=20,default='off')
     quantity=models.IntegerField(default=0)
 

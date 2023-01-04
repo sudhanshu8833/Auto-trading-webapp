@@ -6,10 +6,20 @@ import pandas as pd
 import pyotp
 from smartapi import SmartConnect
 
-def start_class_PPM(json_data):
-    strategy=run_PPM(json_data)
-    strategy.trigger_PPM()
+import traceback
+import logging
+logger = logging.getLogger('dev_log')
 
+
+def start_class_PPM(json_data):
+
+    try:
+        strategy=run_PPM(json_data)
+        strategy.trigger_PPM()
+
+
+    except Exception:
+        logger.info(traceback.format_exc())
 
 class run_PPM():
 
@@ -30,8 +40,6 @@ class run_PPM():
     def calculate_tokens(self):
         df = pd.read_csv('shop/strategy/scripts.csv')
 
-
-
         for i in range(len(df)):
 
             if self.json_data["stocks"]+'-EQ' ==df['symbol'][i]:
@@ -48,6 +56,7 @@ class run_PPM():
             users_opened_positions[i].price_out=float(self.json_data['trigger_price'])
             users_opened_positions[i].current_price=float(self.json_data['trigger_price'])
             users_opened_positions[i].time_out=datetime.now(timezone("Asia/Kolkata"))
+            self.create_real_orders(users_opened_positions[i],"CLOSE")
             users_opened_positions[i].save()
 
         data.price_out=float(self.json_data['trigger_price'])
@@ -115,7 +124,7 @@ class run_PPM():
         subs=subscriptions.objects.filter(strategy_name="PPM",status="on")
 
         for i in range(len(subs)):
-            user_symbols = ast.literal_eval(subs[i].symbols)
+            user_symbols = subs[i].symbols.split(',')
             for j in range(len(user_symbols)):
                 if user_symbols[j]==self.json_data["stocks"]:
                     user_position=positions_userwise(username=subs[i].username,
@@ -131,14 +140,41 @@ class run_PPM():
                                                     token=self.token[self.json_data["stocks"]+'-EQ'],
                                                     pnl=0
                     )
+                    self.create_real_orders(user_position,"OPEN")
                     user_position.save()
 
 
+    def create_real_orders(self,data,type):
+
+        try:
+            if type=="CLOSE":
+                if data.side=="buy":
+                    data.side="sell"
+                else:
+                    data.side="buy"
+
+            user=User1.objects.get(username=data.username)
+
+            user_obj=SmartConnect(api_key=user.angel_api_keys)
+            user_obj.generateSession(user.angel_client_id,user.angel_password,pyotp.TOTP(user.angel_token).now())
+
+            orderparams = {
+                "variety": "NORMAL",
+                "tradingsymbol": str(data.symbol)+'-EQ',
+                "symboltoken": str(data.token),
+                "transactiontype": str((data.side).upper()),
+                "exchange": "NSE",
+                "ordertype": "MARKET",
+                "producttype": "INTRADAY",
+                "duration": "DAY",
+                "quantity": str(int(data.quantity)),
+            }
+
+            orderId = user_obj.placeOrder(orderparams)
+            
+        except Exception:
+            logger.info(traceback.format_exc())
 
 
     def trigger_PPM(self):
         self._updated_market_order()
-
-
-
-

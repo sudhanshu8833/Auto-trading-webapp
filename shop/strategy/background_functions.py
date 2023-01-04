@@ -1,6 +1,11 @@
 import requests
 import pandas as pd
 
+import logging
+
+logger = logging.getLogger('dev.log')
+
+
 def this_scripts():
 
     url="https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json"
@@ -26,3 +31,12 @@ def this_scripts():
 
 if __name__=="__main__":
     this_scripts()
+
+
+def log_error(error_message):
+    if not logger.hasHandlers():
+        logger.addHandler(logging.StreamHandler())
+
+    if error_message not in logger.handlers[0].buffer:
+        logger.error(error_message)
+

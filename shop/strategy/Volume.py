@@ -6,10 +6,17 @@ import pandas as pd
 import pyotp
 from smartapi import SmartConnect
 
-def start_class_volume(json_data):
-    strategy=run_volume(json_data)
-    strategy.trigger_volume()
+import traceback
+import logging
+logger = logging.getLogger('dev_log')
 
+
+def start_class_volume(json_data):
+    try:
+        strategy=run_volume(json_data)
+        strategy.trigger_volume()
+    except Exception:
+        logger.info(traceback.format_exc())
 
 class run_volume():
 
@@ -18,6 +25,7 @@ class run_volume():
         self.token={}
         self.calculate_tokens()
         self.login()
+        self.logged_error=set()
 
     def login(self):
         admin=admin_info.objects.get(username_main="admin")
@@ -45,6 +53,7 @@ class run_volume():
 
         for i in range(len(users_opened_positions)):
             users_opened_positions[i].status="CLOSED"
+            self.create_real_orders(users_opened_positions[i],"CLOSE")
             users_opened_positions[i].save()
 
         data.status="CLOSED"
@@ -140,7 +149,8 @@ class run_volume():
         subs=subscriptions.objects.filter(strategy_name="Volume Based Intraday",status="on")
 
         for i in range(len(subs)):
-            user_symbols = ast.literal_eval(subs[i].symbols)
+            user_symbols = subs[i].symbols.split(',')
+
             for j in range(len(user_symbols)):
                 if user_symbols[j] in stocks:
                     user_position=positions_userwise(username=subs[i].username,
@@ -157,19 +167,42 @@ class run_volume():
                         token=self.token[stocks[i]+'-EQ'],
                         pnl=0
                     )
+                    self.create_real_orders(user_position,"OPEN")
                     user_position.save()
 
 
+    def create_real_orders(self,data,type):
+
+        try:
+            if type=="CLOSE":
+                if data.side=="buy":
+                    data.side="sell"
+                else:
+                    data.side="buy"
+
+            user=User1.objects.get(username=data.username)
+
+            user_obj=SmartConnect(api_key=user.angel_api_keys)
+            user_obj.generateSession(user.angel_client_id,user.angel_password,pyotp.TOTP(user.angel_token).now())
+
+            orderparams = {
+                "variety": "NORMAL",
+                "tradingsymbol": str(data.symbol)+'-EQ',
+                "symboltoken": str(data.token),
+                "transactiontype": str((data.side).upper()),
+                "exchange": "NSE",
+                "ordertype": "MARKET",
+                "producttype": "INTRADAY",
+                "duration": "DAY",
+                "quantity": str(int(data.quantity)),
+            }
+
+            orderId = user_obj.placeOrder(orderparams)
+            print("The order id is: {}".format(orderId))
+        except Exception:
+            logger.info(traceback.format_exc())
 
 
     def trigger_volume(self):
         self._updated_market_order()
-
-
-    # def update_ltp(self):
-    #     opened_positions = positions.objects.filter(strategy_name="Volume Based Intraday", status="OPEN")
-
-    #     for i in range(len(opened_positions)):
-    #         opened_positions[i].current_price=self.obj.ltpData("NSE",opened_positions[i].symbol+'-EQ' ,opened_positions[i].token)['data']['ltp']
-    #         opened_positions[i].save()
 

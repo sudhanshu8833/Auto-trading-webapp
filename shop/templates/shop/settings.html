@@ -342,52 +342,54 @@
                           </div>
                           <div class="card-body">
                               <div class="basic-form">
-                                  <form>
-
+                                  <form method="post">
+                                    {% csrf_token %}
                                       <div class="row">
                                           <div class="mb-3 col-md-6">
                                               <label class="form-label">symbol 1</label>
-                                              <input type="text" class="form-control" placeholder="symbol" name="symbol_1">
+                                              <input type="text" class="form-control" placeholder="symbol" name="symbol_1" value="{{ subs.0.symbols }}">
                                           </div>
                                           <div class="mb-3 col-md-6">
                                               <label class="form-label">quantity 1</label>
-                                              <input type="number" class="form-control" placeholder="quantity" name="quantity_1">
+                                              <input type="number" class="form-control" placeholder="quantity" name="quantity_1" value="{{ subs.0.quantity }}">
                                           </div>
 
                                           <div class="mb-3 col-md-6">
                                             <label class="form-label">symbol 2</label>
-                                            <input type="text" class="form-control" placeholder="symbol" name="symbol_2">
-                                        </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label class="form-label">quantity 2</label>
-                                            <input type="number" class="form-control" placeholder="quantity" name="quantity_2">
+                                            <input type="text" class="form-control" placeholder="symbol" name="symbol_2" value="{{ subs.1.symbols }}">
                                         </div>
 
                                         <div class="mb-3 col-md-6">
+                                            <label class="form-label">quantity 2</label>
+                                            <input type="number" class="form-control" placeholder="quantity" name="quantity_2" value="{{ subs.1.quantity }}">
+                                        </div>
+
+
+                                        <div class="mb-3 col-md-6">
                                           <label class="form-label">symbol 3</label>
-                                          <input type="text" class="form-control" placeholder="symbol" name="symbol_3">
+                                          <input type="text" class="form-control" placeholder="symbol" name="symbol_3" value="{{ subs.2.symbols }}">
                                       </div>
                                       <div class="mb-3 col-md-6">
                                           <label class="form-label">quantity 3</label>
-                                          <input type="number" class="form-control" placeholder="quantity" name="quantity_3">
+                                          <input type="number" class="form-control" placeholder="quantity" name="quantity_3" value="{{ subs.2.quantity }}">
                                       </div>
 
                                       <div class="mb-3 col-md-6">
                                         <label class="form-label">symbol 4</label>
-                                        <input type="text" class="form-control" placeholder="symbol" name="symbol_4">
+                                        <input type="text" class="form-control" placeholder="symbol" name="symbol_4" value="{{ subs.3.symbols }}">
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label">quantity 4</label>
-                                        <input type="number" class="form-control" placeholder="quantity" name="quantity_4">
+                                        <input type="number" class="form-control" placeholder="quantity" name="quantity_4" value="{{ subs.3.quantity }}">
                                     </div>
 
                                     <div class="mb-3 col-md-6">
                                       <label class="form-label">symbol 5</label>
-                                      <input type="text" class="form-control" placeholder="symbol" name="symbol_5">
+                                      <input type="text" class="form-control" placeholder="symbol" name="symbol_5" value="{{ subs.4.symbols }}">
                                   </div>
                                   <div class="mb-3 col-md-6">
                                       <label class="form-label">quantity 5</label>
-                                      <input type="number" class="form-control" placeholder="quantity" name="quantity_5">
+                                      <input type="number" class="form-control" placeholder="quantity" name="quantity_5" value="{{ subs.4.quantity }}">
                                   </div>
 
                                       <button type="submit" class="btn btn-primary">Submit</button>

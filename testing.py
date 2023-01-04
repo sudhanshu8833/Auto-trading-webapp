@@ -10,12 +10,17 @@
 # obj.ltpData("NSE",'INFY-EQ' ,)['data']['ltp']
 
 
-i=0
-stocks=['A','b','C']
+logged_errors = set()
 
-for i in range(len(stocks)):
-    
-    if i==1:
-        del stocks[i]
 
-    print(stocks,i)
+
+while True:
+
+    try:
+        print(hello)
+    except Exception as e:
+        
+        if str(e) not in logged_errors:
+            print("hello")
+        logged_errors.add(str(e))
+

@@ -12,6 +12,7 @@ def my_scheduled_job():
     logged_errors = set()
 
     try:
+        logger.info("testing about the cron")
         start_stoploss_for_volume()
 
     except Exception as e:
