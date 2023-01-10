@@ -137,7 +137,7 @@ class run_volume():
                         time_out=datetime.now(timezone("Asia/Kolkata")),
                         price_out=0,
                         status='OPEN',
-                        token=self.token[stocks[i]+'-EQ'],
+                        token=self.token[user_symbols[j]+'-EQ'],
                         pnl=0,
                         stoploss=stoploss,
                         takeprofit_1=takeprofit_1,
@@ -164,7 +164,7 @@ class run_volume():
                         time_out=datetime.now(timezone("Asia/Kolkata")),
                         price_out=0,
                         status='OPEN',
-                        token=self.token[stocks[i]+'-EQ'],
+                        token=self.token[user_symbols[j]+'-EQ'],
                         pnl=0
                     )
                     self.create_real_orders(user_position,"OPEN")
@@ -198,7 +198,8 @@ class run_volume():
             }
 
             orderId = user_obj.placeOrder(orderparams)
-            print("The order id is: {}".format(orderId))
+            logger.info("The order id is: {}".format(orderId))
+
         except Exception:
             logger.info(traceback.format_exc())
 

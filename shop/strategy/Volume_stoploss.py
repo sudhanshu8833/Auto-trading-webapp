@@ -129,7 +129,7 @@ class run_volume():
             }
 
             orderId = user_obj.placeOrder(orderparams)
-            print("The order id is: {}".format(orderId))
+            logger.info("The order id is: {}".format(orderId))
         except Exception:
             logger.info(traceback.format_exc())
 

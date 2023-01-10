@@ -161,7 +161,10 @@ def strategies(request):
 
             try:
                 if position[i].side=="buy":
-                    pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
+                    try:
+                        pnl=((position[i].current_price-position[i].price_in)/position[i].price_in)*100
+                    except:
+                        pnl=((position[i].current_price-position[i].price_in)/1)*100
                     position[i].pnl=round(pnl,2)
                     position[i].save()
                     overall_pnl+=pnl
@@ -176,7 +179,11 @@ def strategies(request):
                         year_pnl+=pnl
 
                 else:
-                    pnl=((position[i].price_in-position[i].current_price)/position[i].current_price)*100
+                    try:
+                        pnl=((position[i].price_in-position[i].current_price)/position[i].current_price)*100
+                    except:
+                        pnl=((position[i].price_in-position[i].current_price)/1)*100
+
                     position[i].pnl=round(pnl,2)
                     position[i].save()
                     overall_pnl+=pnl
@@ -198,7 +205,6 @@ def strategies(request):
         data['today_pnl']=round(today_pnl,2)
         data['overall_pnl']=round(overall_pnl,2)
         data['strategy_name']=strat[j].strategy_name
-
         data['positions']=position
         # param[strat[j].strategy_name]=data
 

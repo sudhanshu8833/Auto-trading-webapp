@@ -26,7 +26,6 @@ class User1(models.Model):
     phone=models.IntegerField(default='999')
     fullname=models.CharField(max_length=50,default='NA')
 
-
     # Angel api keys
     angel_api_keys=models.CharField(max_length=100,default='NA')
     angel_client_id=models.CharField(max_length=100,default='NA')
@@ -93,7 +92,7 @@ class subscriptions(models.Model):
     strategy_name=models.CharField(max_length=200,default='NA')
     symbols=models.CharField(max_length=2000,default='NA')
     status=models.CharField(max_length=20,default='off')
-    quantity=models.IntegerField(default=0)
+    quantity=models.IntegerField(default=1)
 
 
 

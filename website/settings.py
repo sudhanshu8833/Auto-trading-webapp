@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-5zc(cmv)=!+_3(t==hu4t!#k_ngp8j29t1@2d5@2j&^3#g-4-^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['139.59.29.82', 'www.algo99.com',
-                 'algo99.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['139.59.29.82', 'www.gainerplus.in',
+                 'gainerplus.in', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -195,5 +195,5 @@ LOGGING = {
 }
 
 CRONJOBS = [
-    ('* * * * *', 'shop.cron.my_scheduled_job')
+    ('40 3 * * *', 'shop.cron.my_scheduled_job')
 ]

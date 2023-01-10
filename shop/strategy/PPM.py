@@ -99,12 +99,7 @@ class run_PPM():
                         self.close_position(opened_positions[j])
                         
 
-
-        
-
         stock_data=self.obj.ltpData("NSE",self.json_data["stocks"]+'-EQ' ,self.token[self.json_data["stocks"]+'-EQ'])['data']
-
-
 
         position=positions(strategy_name="PPM",
                     symbol=self.json_data["stocks"],
@@ -171,7 +166,7 @@ class run_PPM():
             }
 
             orderId = user_obj.placeOrder(orderparams)
-            
+            logger.info("The order id is: {}".format(orderId))
         except Exception:
             logger.info(traceback.format_exc())
 

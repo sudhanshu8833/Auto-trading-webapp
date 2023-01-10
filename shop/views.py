@@ -46,29 +46,38 @@ def key(request):
         messages.success(request, "Successfully Added/Changed Angel Keys")
         return redirect('index')
 
-        messages.error(request, "some problem occured ..!!")
-        return redirect('index')
+    messages.error(request, "some problem occured ..!!")
+    return redirect('index')
 
 
 
 
 @api_view(["POST","GET"]) #allowed methods
 def webhook_alert(request):
-    data=request.data
 
-    if request.method == "POST":
-        if "scan_name" in data:
+
+    try:
+        data=request.data
+        url = request.get_full_path()
+
+        logger.info(str(url))
+        if request.method == "POST":
+            if "scan_name" in data:
+                
+                start_class_volume(data)
+                # start_stoploss_for_volume()
+
             
-            start_class_volume(data)
-            # start_stoploss_for_volume()
 
-        
-
-        else:
-            if "System" in data:
-                if data["System"]=="PPM":
-                    start_class_PPM(data)
+            else:
+                if "System" in data:
+                    if data["System"]=="PPM":
+                        start_class_PPM(data)
 
 
 
-    return Response(data)
+        return Response(data)
+
+    except Exception:
+        logger.info(traceback.format_exc())
+        return Response(traceback.format_exc())
