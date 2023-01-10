@@ -46,6 +46,7 @@ def key(request):
         messages.success(request, "Successfully Added/Changed Angel Keys")
         return redirect('index')
 
+    
     messages.error(request, "some problem occured ..!!")
     return redirect('index')
 
@@ -61,6 +62,7 @@ def webhook_alert(request):
         url = request.get_full_path()
 
         logger.info(str(url))
+        logger.info(data)
         if request.method == "POST":
             if "scan_name" in data:
                 
