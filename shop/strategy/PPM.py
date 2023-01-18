@@ -167,8 +167,10 @@ class run_PPM():
 
             orderId = user_obj.placeOrder(orderparams)
             logger.info("The order id is: {}".format(orderId))
+
         except Exception:
-            logger.info(traceback.format_exc())
+            # logger.info(traceback.format_exc())
+            pass
 
 
     def trigger_PPM(self):

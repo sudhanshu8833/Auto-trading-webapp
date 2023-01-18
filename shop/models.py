@@ -52,7 +52,7 @@ class strategy(models.Model):
 
 class positions(models.Model):
 
-    strategy_name=models.CharField(max_length=20,default='NA')
+    strategy_name=models.CharField(max_length=200,default='NA')
     symbol=models.CharField(max_length=20,default='NA')
     time_in=models.DateTimeField(auto_now_add = True)
     price_in=models.FloatField(default=0)
@@ -67,12 +67,12 @@ class positions(models.Model):
     stoploss=models.FloatField(default=0)
     takeprofit_1=models.FloatField(default=0)
     takeprofit_2=models.FloatField(default=0)
-    strategy1_status=models.CharField(default="OPEN",max_length=10)
+    strategy1_status=models.CharField(default="OPEN",max_length=100)
 
 class positions_userwise(models.Model):
 
     username=models.CharField(max_length=20,default='NA')
-    strategy_name=models.CharField(max_length=20,default='NA')
+    strategy_name=models.CharField(max_length=200,default='NA')
     symbol=models.CharField(max_length=20,default='NA')
     time_in=models.DateTimeField(auto_now_add = True)
     price_in=models.FloatField(default=0)

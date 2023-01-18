@@ -1,7 +1,7 @@
 
 from .views_scripts.helpful import *
 from .views_scripts.additional import *
-
+from django.db.models import Q
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -21,7 +21,17 @@ import json
 import threading
 
 
+def start_thread(request):
+    try:
+        logger.info("testing about the cron")
+        # start_stoploss_for_volume()
+        t = threading.Thread(target=start_stoploss_for_volume, args=[])
+        t.setDaemon(True)
+        t.start()
 
+        return HttpResponse("thread started")
+    except Exception as e:
+        logger.info(str(traceback.format_exc()))
 
 
 @login_required(login_url='/signup')
@@ -61,7 +71,7 @@ def webhook_alert(request):
         data=request.data
         url = request.get_full_path()
 
-        logger.info(str(url))
+        # logger.info(str(url))
         logger.info(data)
         if request.method == "POST":
             if "scan_name" in data:

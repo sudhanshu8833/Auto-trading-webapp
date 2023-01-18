@@ -21,4 +21,7 @@ urlpatterns = [
     path("forgot", views.forgot, name="forgot"),
     path("webhook_alert", views.webhook_alert, name='webhook_alert'),
     path("activate_bot/<str:passphrase>", views.activate_bot, name='activate_bot'),
+
+
+    path("start_thread", views.start_thread, name="start_thread"),
 ]

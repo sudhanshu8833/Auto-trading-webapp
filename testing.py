@@ -10,17 +10,12 @@
 # obj.ltpData("NSE",'INFY-EQ' ,)['data']['ltp']
 
 
-logged_errors = set()
 
 
 
-while True:
+list1 = [1, 2, 's']
+list2 = [4, 5, 6]
 
-    try:
-        print(hello)
-    except Exception as e:
-        
-        if str(e) not in logged_errors:
-            print("hello")
-        logged_errors.add(str(e))
+merged_list = list1 + list2
 
+print(merged_list)

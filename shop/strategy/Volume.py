@@ -1,6 +1,7 @@
 from shop.models import *
 from datetime import datetime,time
 from pytz import timezone
+from django.forms.models import model_to_dict
 import ast
 import pandas as pd
 import pyotp
@@ -50,15 +51,17 @@ class run_volume():
     def close_position(self,data):
 
         users_opened_positions=positions_userwise.objects.filter(strategy_name=data.strategy_name,status="OPEN",symbol=data.symbol,side=data.side)
-
         for i in range(len(users_opened_positions)):
             users_opened_positions[i].status="CLOSED"
+            users_opened_positions[i].price_out=round(float(data.current_price),2)
+            users_opened_positions[i].time_out=datetime.now(timezone("Asia/Kolkata"))
+            users_opened_positions[i].pnl=data.pnl
             self.create_real_orders(users_opened_positions[i],"CLOSE")
             users_opened_positions[i].save()
-
+        data.price_out=data.current_price
+        data.time_out=datetime.now(timezone("Asia/Kolkata"))
         data.status="CLOSED"
         data.save()
-
 
     def _updated_market_order(self):
 
@@ -72,8 +75,10 @@ class run_volume():
             if '0pen_H!gh' in self.json_data.values():
                 order_type="buy"
                 opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
-                # stock_list_open=opened_positions.values_list("symbol")
-                
+                opened_positions1=positions.objects.filter(strategy_name="Volume Based Intraday",status="PARTIAL_CLOSE")
+                opened_positions=opened_positions1 | opened_positions
+
+
                 for j in range(len(opened_positions)):
                     if stocks[i]==opened_positions[j].symbol:
                         if opened_positions[j].side=="sell":
@@ -81,13 +86,11 @@ class run_volume():
                             self.close_position(opened_positions[j])
                             stocks[i]="-NA"
                             trigger_prices[i]="-NA"
-
                             break
 
                         else:
                             stocks[i]="-NA"
                             trigger_prices[i]="-NA"
-
                             break
 
 
@@ -96,8 +99,10 @@ class run_volume():
             else:
                 order_type="sell"
                 opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
-                # stock_list_open=opened_positions.values_list("symbol")
-                
+                opened_positions1=positions.objects.filter(strategy_name="Volume Based Intraday",status="PARTIAL_CLOSE")
+                opened_positions=opened_positions1 | opened_positions
+
+
                 for j in range(len(opened_positions)):
                     if stocks[i]==opened_positions[j].symbol:
                         if opened_positions[j].side=="buy":
@@ -137,7 +142,7 @@ class run_volume():
                         time_out=datetime.now(timezone("Asia/Kolkata")),
                         price_out=0,
                         status='OPEN',
-                        token=self.token[user_symbols[j]+'-EQ'],
+                        token=self.token[stocks[i]+'-EQ'],
                         pnl=0,
                         stoploss=stoploss,
                         takeprofit_1=takeprofit_1,
@@ -153,11 +158,13 @@ class run_volume():
 
             for j in range(len(user_symbols)):
                 if user_symbols[j] in stocks:
+                    price=self.obj.ltpData("NSE",user_symbols[j]+'-EQ' ,self.token[user_symbols[j]+'-EQ'])['data']['ltp']
+
                     user_position=positions_userwise(username=subs[i].username,
                         strategy_name="Volume Based Intraday",
                         symbol=user_symbols[j],
                         time_in=datetime.now(timezone("Asia/Kolkata")),
-                        price_in=trigger_prices[i],
+                        price_in=round(float(price),2),
                         side=order_type,
                         current_price=0,
                         quantity=subs[i].quantity,
@@ -198,7 +205,11 @@ class run_volume():
             }
 
             orderId = user_obj.placeOrder(orderparams)
-            logger.info("The order id is: {}".format(orderId))
+
+            logger.info("The order id is: {}: {}: {}: {}".format(orderId,type, orderparams, model_to_dict(data)))
+
+
+
 
         except Exception:
             logger.info(traceback.format_exc())

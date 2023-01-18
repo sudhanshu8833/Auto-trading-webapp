@@ -1,6 +1,6 @@
 from shop.models import *
 from datetime import datetime,time
-
+from django.forms.models import model_to_dict
 import pyotp
 from smartapi import SmartConnect
 
@@ -36,7 +36,9 @@ class run_volume():
 
     def update_ltp(self):
         opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
-
+        opened_positions1=positions.objects.filter(strategy_name="Volume Based Intraday",status="PARTIAL_CLOSE")
+        opened_positions=opened_positions | opened_positions1
+        
         for i in range(len(opened_positions)):
             ltp=self.obj.ltpData("NSE",opened_positions[i].symbol+'-EQ' ,opened_positions[i].token)['data']['ltp']
             opened_positions[i].current_price=ltp
@@ -52,9 +54,14 @@ class run_volume():
         users_opened_positions=positions_userwise.objects.filter(strategy_name=data.strategy_name,status="OPEN",symbol=data.symbol,side=data.side)
         for i in range(len(users_opened_positions)):
             users_opened_positions[i].status="CLOSED"
-            self.create_real_orders(users_opened_positions[i],"CLOSE",0)
+            users_opened_positions[i].price_out=round(float(data.current_price),2)
+            users_opened_positions[i].time_out=datetime.now(timezone("Asia/Kolkata"))
+            users_opened_positions[i].pnl=data.pnl
+            self.create_real_orders(users_opened_positions[i],"CLOSE",0,data)
             users_opened_positions[i].save()
-
+            
+        data.price_out=data.current_price
+        data.time_out=datetime.now(timezone("Asia/Kolkata"))
         data.status="CLOSED"
         data.save()
 
@@ -64,16 +71,19 @@ class run_volume():
         for i in range(len(users_opened_positions)):
             users_opened_positions[i].status="PARTIAL_CLOSE"
 
-            self.create_real_orders(users_opened_positions[i],"PARTIAL_CLOSE",int(users_opened_positions[i].quantity)-int(users_opened_positions[i].quantity)/2)
+            self.create_real_orders(users_opened_positions[i],"PARTIAL_CLOSE",int(users_opened_positions[i].quantity)-int(users_opened_positions[i].quantity)/2,data)
             users_opened_positions[i].quantity/=2
             
             users_opened_positions[i].save()
 
         data.status="PARTIAL_CLOSE"
+        data.strategy1_status="CLOSE"
         data.save()
 
     def check_updates(self):
         opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
+        opened_positions1=positions.objects.filter(strategy_name="Volume Based Intraday",status="PARTIAL_CLOSE")
+        opened_positions=opened_positions | opened_positions1
 
         for i in range(len(opened_positions)):
             
@@ -81,24 +91,26 @@ class run_volume():
                 if opened_positions[i].current_price <= opened_positions[i].stoploss:
                     self.close_position(opened_positions[i])
 
-                elif opened_positions[i].strategy1_status=="OPEN" and opened_positions[i].current_price >= opened_positions[i].takeprofit_1:
+                elif opened_positions[i].status=="OPEN" and opened_positions[i].current_price >= opened_positions[i].takeprofit_1:
                     self.partial_close(opened_positions[i])
+                    opened_positions[i].status="PARTIAL_CLOSE"
+                    opened_positions[i].save()
 
-                elif (opened_positions[i].strategy1_status=="PARTIAL_CLOSE" or opened_positions[i].strategy1_status=="OPEN") and opened_positions[i].current_price >= opened_positions[i].takeprofit_2:
+                elif (opened_positions[i].status=="PARTIAL_CLOSE" or opened_positions[i].status=="OPEN") and opened_positions[i].current_price >= opened_positions[i].takeprofit_2:
                     self.close_position(opened_positions[i])
 
             if opened_positions[i].side=="sell":
                 if opened_positions[i].current_price >= opened_positions[i].stoploss:
                     self.close_position(opened_positions[i])
 
-                elif opened_positions[i].strategy1_status=="OPEN" and opened_positions[i].current_price <= opened_positions[i].takeprofit_1:
+                elif opened_positions[i].status=="OPEN" and opened_positions[i].current_price <= opened_positions[i].takeprofit_1:
                     self.partial_close(opened_positions[i])
 
-                elif (opened_positions[i].strategy1_status=="PARTIAL_CLOSE" or opened_positions[i].strategy1_status=="OPEN") and opened_positions[i].current_price <= opened_positions[i].takeprofit_2:
+                elif (opened_positions[i].status=="PARTIAL_CLOSE" or opened_positions[i].status=="OPEN") and opened_positions[i].current_price <= opened_positions[i].takeprofit_2:
                     self.close_position(opened_positions[i])
 
 
-    def create_real_orders(self,data,type,quantity):
+    def create_real_orders(self,data,type,quantity,position_info):
 
         try:
             if type=="CLOSE" or type=="PARTIAL_CLOSE":
@@ -128,18 +140,26 @@ class run_volume():
                 "quantity": str(int(data.quantity)),
             }
 
-            orderId = user_obj.placeOrder(orderparams)
-            logger.info("The order id is: {}".format(orderId))
+
+            orderId = user_obj.placeOrder(orderparams)\
+
+            try:
+                logger.info("The order id is: {}: {}: {}: {}".format(orderId,type, orderparams, model_to_dict(position_info)))
+            except:
+                logger.info("The order id is: {}: {}: {}".format(orderId,type, orderparams))
         except Exception:
             logger.info(traceback.format_exc())
 
 
 
     def main(self):
+            logger.info("started")
             while True:
 
                 if time(15, 20) <= datetime.now(timezone("Asia/Kolkata")).time():
                     opened_positions=positions.objects.filter(strategy_name="Volume Based Intraday",status="OPEN")
+                    opened_positions1=positions.objects.filter(strategy_name="Volume Based Intraday",status="PARTIAL_CLOSE")
+                    opened_positions=opened_positions| opened_positions1
                     for i in range(len(opened_positions)):
                         self.close_position(opened_positions[i])
 
