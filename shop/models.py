@@ -1,4 +1,4 @@
-from alice_blue import TransactionType
+
 from django.db import models
 from django.db.models.fields import DateField, IntegerField
 from django.contrib.auth.models import User
