@@ -28,7 +28,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/star-rating/star-rating-svg.css' %}">
     <link href="{% static 'vendor/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'vendor/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
       .alert {
@@ -129,7 +129,7 @@
               font-weight: bold;
             "
           >
-            Gainerplus
+            Gainer
           </h1>
         </a>
         <div class="nav-control">
@@ -157,35 +157,7 @@
 
 
 
-      <div class="modal fade" id="exampleModalCenter">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">ADD KEYS</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal">
-              </button>
-            </div>
-            <div class="modal-body">
-              <form class="w3-container" method="post" action="/key">
-                {% csrf_token %}
-                <div class="w3-section">
-                  <label><b>Binance API key</b></label>
-                  <input class="w3-input w3-border w3-margin-bottom" type="text"
-                    placeholder="Enter API Key" name="api" required>
-                  <label><b>Binance Secret Key</b></label>
-                  <input class="w3-input w3-border" type="text" placeholder="Enter Secret Key"
-                    name="secret" required>
-  
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
+
 
 
 
@@ -237,7 +209,7 @@
             </li>
 
 
-            <li>
+            <li class="mm-active">
               <a href="/index" class="ai-icon" aria-expanded="false">
                 <i class="flaticon-025-dashboard"></i>
                 <span class="nav-text mm-show">Dashboard</span>

@@ -5,11 +5,12 @@ from django.db.models import Q
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
+import datetime
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .strategy.Volume import *
 from .strategy.PPM import *
+from .strategy.PPM_BTST import *
 from .strategy.Volume_stoploss import *
 # Create your views here.
 
@@ -79,13 +80,15 @@ def webhook_alert(request):
                 start_class_volume(data)
                 # start_stoploss_for_volume()
 
-            
+
 
             else:
                 if "System" in data:
                     if data["System"]=="PPM":
                         start_class_PPM(data)
 
+                    if data['System']=="PPM BTST" and datetime.datetime.now().time().hour>=15:
+                        start_class_PPM_BTST(data)
 
 
         return Response(data)

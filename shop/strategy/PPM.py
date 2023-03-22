@@ -120,6 +120,7 @@ class run_PPM():
 
         for i in range(len(subs)):
             user_symbols = subs[i].symbols.split(',')
+            print(user_symbols)
             for j in range(len(user_symbols)):
                 if user_symbols[j]==self.json_data["stocks"]:
                     user_position=positions_userwise(username=subs[i].username,
@@ -133,11 +134,12 @@ class run_PPM():
                                                     price_out=0,
                                                     status='OPEN',
                                                     token=self.token[self.json_data["stocks"]+'-EQ'],
-                                                    pnl=0
+                                                    pnl=0,
+                                                    quantity=int(subs[i].quanity)
                     )
                     self.create_real_orders(user_position,"OPEN")
                     user_position.save()
-
+                    break
 
     def create_real_orders(self,data,type):
 
@@ -169,8 +171,8 @@ class run_PPM():
             logger.info("The order id is: {}".format(orderId))
 
         except Exception:
-            # logger.info(traceback.format_exc())
-            pass
+            logger.info(traceback.format_exc())
+
 
 
     def trigger_PPM(self):

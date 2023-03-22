@@ -48,22 +48,19 @@ class strategy(models.Model):
     strategy_name=models.CharField(max_length=30,default="NA")
 
 
-
-
 class positions(models.Model):
 
     strategy_name=models.CharField(max_length=200,default='NA')
     symbol=models.CharField(max_length=20,default='NA')
     time_in=models.DateTimeField(auto_now_add = True)
     price_in=models.FloatField(default=0)
-    side = models.CharField(max_length=20,default='NA')
+    side = models.CharField(max_length=20,default='NA') #buy,sell
     current_price=models.FloatField(default=0)
     time_out=models.DateTimeField(default=0)
     price_out=models.FloatField(default=0)
     status=models.CharField(max_length=20,default='NA') #OPEN, CLOSE
     token=models.CharField(max_length=20,default='NA')
     pnl=models.FloatField(default=0)
-    
     stoploss=models.FloatField(default=0)
     takeprofit_1=models.FloatField(default=0)
     takeprofit_2=models.FloatField(default=0)
@@ -87,12 +84,8 @@ class positions_userwise(models.Model):
 
 
 class subscriptions(models.Model):
-
     username=models.CharField(max_length=20,default='NA')
     strategy_name=models.CharField(max_length=200,default='NA')
     symbols=models.CharField(max_length=2000,default='NA')
     status=models.CharField(max_length=20,default='off')
     quantity=models.IntegerField(default=1)
-
-
-

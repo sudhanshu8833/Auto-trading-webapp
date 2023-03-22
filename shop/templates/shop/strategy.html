@@ -28,7 +28,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/star-rating/star-rating-svg.css' %}">
     <link href="{% static 'vendor/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'vendor/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
       .alert {
@@ -197,113 +197,94 @@
       <!--**********************************
             Sidebar start
         ***********************************-->
-      <div class="dlabnav">
-        <div class="dlabnav-scroll">
-          <ul class="metismenu" id="menu">
-            <li class="dropdown header-profile">
-              <a
-                class="nav-link"
-                href="javascript:void(0);"
-                role="button"
-                data-bs-toggle="dropdown"
-              >
-                <div class="header-info ms-3">
-                  <span class="font-w600">Hi,<b>{{ myuser.username }}</b></span>
-                  <small class="text-end font-w400">{{ myuser.email }}</small>
-                </div>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end">
-                <a href="/handleLogout" class="dropdown-item ai-icon">
-                  <svg
-                    id="icon-logout"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="text-danger"
-                    width="18"
-                    height="18"
-                    viewbox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                  </svg>
-                  <span class="ms-2">Logout </span>
+        <div class="dlabnav">
+          <div class="dlabnav-scroll">
+            <ul class="metismenu" id="menu">
+              <li class="dropdown header-profile">
+                <a
+                  class="nav-link"
+                  href="javascript:void(0);"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  <div class="header-info ms-3">
+                    <span class="font-w600">Hi,<b>{{ myuser.username }}</b></span>
+                    <small class="text-end font-w400">{{ myuser.email }}</small>
+                  </div>
                 </a>
-              </div>
-            </li>
-            <li>
-              <a href="/index" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-025-dashboard"></i>
-                <span class="nav-text mm-show">Dashboard</span>
-              </a>
-            </li>
-            <!-- <li>
-              <a href="/all_bots" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-040-graph"></i>
-                <span class="nav-text">Upgrade bots</span>
-              </a>
-            </li> -->
-            <!-- <li>
-              <a href="/bots" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-013-checkmark"></i>
-                <span class="nav-text">bots</span>
-              </a>
-            </li> -->
-
-
-            <li>
-              <a href="/add_api" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-381-key"></i>
-                <span class="nav-text">add api</span>
-              </a>
-            </li>
-
-            <li>
-              <a href="/strategy" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-022-copy"></i>
-                <span class="nav-text mm-show sweet-wrong">strategy</span>
-              </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a href="/handleLogout" class="dropdown-item ai-icon">
+                    <svg
+                      id="icon-logout"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="text-danger"
+                      width="18"
+                      height="18"
+                      viewbox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                      <polyline points="16 17 21 12 16 7"></polyline>
+                      <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span class="ms-2">Logout </span>
+                  </a>
+                </div>
               </li>
-
-            <li>
-              <a href="/personal" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-381-notepad"></i>
-                <span class="nav-text">personal analytics</span>
-              </a>
-            </li>
-            <li>
-
-
-              <a href="/setting" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-381-notepad"></i>
-                <span class="nav-text">settings</span>
-              </a>
-            </li>
-            <li>
-              <a href="/handleLogout" class="ai-icon" aria-expanded="false">
-                <i class="flaticon-381-compass-1"></i>
-                <span class="nav-text">Logout</span>
-              </a>
-            </li>
-
-
-          </ul>
-
-
-
-            <p style="padding-top: 30px;">
-              <strong>Algo99 Admin Dashboard</strong> © 2022 All Rights Reserved
-            </p>
-            <p class="fs-12">Made with <span class="heart"></span> by Algo99</p>
+  
+  
+              <li>
+                <a href="/index" class="ai-icon" aria-expanded="false">
+                  <i class="flaticon-025-dashboard"></i>
+                  <span class="nav-text mm-show">Dashboard</span>
+                </a>
+              </li>
+  
+              <li>
+                <a href="/add_api" class="ai-icon" aria-expanded="false">
+                  <i class="flaticon-381-key"></i>
+                  <span class="nav-text">add api</span>
+                </a>
+              </li>
+              <li>
+                <a href="/setting" class="ai-icon" aria-expanded="false">
+                  <i class="flaticon-381-notepad"></i>
+                  <span class="nav-text">settings</span>
+                </a>
+              </li>
+              <li class="mm-active">
+                <a href="/strategy" class="ai-icon" aria-expanded="false">
+                  <i class="flaticon-022-copy"></i>
+                  <span class="nav-text mm-show sweet-wrong">strategy</span>
+                </a>
+                </li>
+  
+              <li>
+                <a href="/personal" class="ai-icon" aria-expanded="false">
+                  <i class="flaticon-381-notepad"></i>
+                  <span class="nav-text">personal analytics</span>
+                </a>
+              </li>
+  
+              <li>
+                <a href="/handleLogout" class="ai-icon" aria-expanded="false">
+                  <i class="flaticon-381-compass-1"></i>
+                  <span class="nav-text">Logout</span>
+                </a>
+              </li>
+  
+  
+            </ul>
+  
+  
+  
           </div>
-
-
-
         </div>
+      
       </div>
 	  
 

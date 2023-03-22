@@ -343,7 +343,7 @@ def signup(request):
         for i in range(5):
             subs=subscriptions(username=username,strategy_name=all_strategy[i].strategy_name,quantity=0,
                 status="off",
-                symbols="[]"
+                symbols=""
             )
             subs.save()
 #############################################################

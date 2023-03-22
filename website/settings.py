@@ -195,5 +195,7 @@ LOGGING = {
 }
 
 CRONJOBS = [
-    ('40 3 * * *', 'shop.cron.my_scheduled_job')
+    ('40 3 * * *', 'shop.cron.my_scheduled_job'),
+    ('50 3 * * *', 'shop.cron.PPM_BTST_scheduled')
+
 ]
